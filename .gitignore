@@ -1,0 +1,20 @@
+# Logs
+*.log
+view/images/debug.log
+
+# Operating System Files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# IDE / Editor Files
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Temporary / Session Files
+*.tmp
+*.temp
+cookies*.txt
