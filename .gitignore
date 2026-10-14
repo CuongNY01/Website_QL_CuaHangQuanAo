@@ -18,3 +18,7 @@ Desktop.ini
 *.tmp
 *.temp
 cookies*.txt
+
+# Helper scripts & IDE
+.vscode/
+setup_git_roadmap.ps1
