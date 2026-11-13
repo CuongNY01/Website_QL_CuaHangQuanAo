@@ -1,53 +1,79 @@
 <link rel="stylesheet" href="../view/css/products.css">
 
 <style>
-  .about .desc {
-    padding: 50px 0;
+  .about-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 35px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
   }
-
-  .about .desc p {
-    line-height: 1.6;
+  .about-container h2 {
+    color: #2c3e50;
+    font-size: 24px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e74c3c;
+    padding-bottom: 10px;
   }
-
-  .about a {
-    color: #000;
+  .about-container p, .about-container li {
+    line-height: 1.8;
+    color: #444;
+    font-size: 15px;
+  }
+  .about-box-highlight {
+    background: #f8f9fa;
+    border-left: 4px solid #007bff;
+    padding: 15px 20px;
+    border-radius: 4px;
+    margin: 20px 0;
   }
 </style>
+
 <div class="banner">
-  <img src="https://file.hstatic.net/200000973638/file/banner5.jpg" alt="" height="280px">
+  <img src="../view/images/banner5.jpg" alt="Giới thiệu thương hiệu" style="width: 100%; height: 260px; object-fit: cover;">
 </div>
+
 <div class="main">
-  <h2 style="margin: 50px 100px;">GIỚI THIỆU</h2>
+  <div class="about-container">
+    <h2>VỀ CHÚNG TÔI - FOOTBALL STORE 24/7</h2>
+    
+    <p>
+      Chào mừng bạn đến với <b>Football Store 24/7</b> - Hệ thống phân phối trang phục thi đấu bóng đá, áo đấu câu lạc bộ và quần áo thời trang thể thao uy tín hàng đầu!
+    </p>
 
-  <section class="about" style="margin: 0 100px;">
-    <h3 class="heading">Giới Thiệu</h3>
-    <img src="./images/slide/slide-1.jpg " alt="">
-    <div class="desc">
-      <p>
-      24/7 Shop - Cửa hàng quần áo bóng đá chất lượng cho mọi đam mê!<br> <br>
-
-        <li>24/7 Shop là nhà cung cấp chuyên nghiệp, chuyên cung cấp các sản phẩm quần áo bóng đá chất lượng cao, từ áo đấu câu lạc bộ, đội tuyển quốc gia đến trang phục tập luyện và phụ kiện. <br> <br></li>
-        <li>24/7 Shop đặt chất lượng lên hàng đầu. Tất cả sản phẩm đều được tuyển chọn kỹ lưỡng, đảm bảo chất liệu thoáng mát, thấm hút mồ hôi tốt, và thiết kế chuẩn form, giúp bạn luôn thoải mái trên sân cỏ cũng như khi cổ vũ đội bóng yêu thích.  <br> <br></li>
-
-        <li>24/7 Shop mang đến đa dạng các mẫu mã quần áo bóng đá, từ các CLB hàng đầu Châu Âu đến các đội tuyển quốc gia nổi tiếng. Dù bạn là fan của đội bóng nào, chúng tôi đều có thể đáp ứng nhu cầu của bạn.  <br> <br></li>
-
-        <li>Ngoài ra, 24/7 Shop còn cung cấp dịch vụ in ấn tên số lên áo đấu, giúp bạn thể hiện cá tính và sự ủng hộ với đội bóng mình yêu thích.<br> <br></li>
-
-        <img src="https://file.hstatic.net/200000973638/file/real4.jpg" alt="" height="500px" width="800px"> <br> <br>
-         <br> <br>
-
-        <br> <br>
-
-         <br> <br>
-        <li>Tầm nhìn: Trở thành cửa hàng quần áo bóng đá hàng đầu, đáp ứng mọi nhu cầu của người hâm mộ và các cầu thủ trên toàn quốc. </li> <br>
-        <li>Sứ mệnh: Mang đến những sản phẩm chất lượng, đa dạng và dịch vụ tận tâm, giúp khách hàng thể hiện niềm đam mê bóng đá một cách trọn vẹn nhất.
-          </li> <br>
-        <li> Cam kết được chất lượng sản phẩm cho đến tay người tiêu dùng cuối cùng</li> <br>
-        Thông tin liên hệ <br>
-        Địa chỉ cửa hàng: Đường Trịnh Văn Bô, Nam Từ Liêm, Hà Nội<br>
-        Hotline:024.2236.5888 <br>
-      </p>
+    <div style="text-align: center; margin: 25px 0;">
+      <img src="../view/images/real4.jpg" alt="Trang phục thể thao 24/7" style="max-width: 600px; width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
     </div>
-    <a href="../controller/index.php" style="text-decoration: none; color: bule;"><i class='bx bx-chevron-left'></i>< Quay lại mua sắm</a>
-  </section>
+
+    <h3 style="color: #2c3e50; font-size: 18px; margin-top: 25px;"><i class="fa fa-flag" style="color: #e74c3c;"></i> Sứ Mệnh & Tầm Nhìn</h3>
+    <ul style="margin-left: 20px;">
+      <li><b>Sứ mệnh:</b> Mang lại cho người hâm mộ thể thao và các bạn trẻ những mẫu áo thi đấu chuẩn đẹp, chất lượng vải mè cao cấp với mức giá hợp lý nhất, giúp bạn tự tin thể hiện tình yêu với đội bóng của mình.</li>
+      <li><b>Tầm nhìn:</b> Trở thành nền tảng thương mại điện tử chuyên biệt về thời trang thể thao được yêu thích nhất, kết nối hàng triệu người hâm mộ bóng đá trên khắp cả nước.</li>
+    </ul>
+
+    <h3 style="color: #2c3e50; font-size: 18px; margin-top: 25px;"><i class="fa fa-star" style="color: #f39c12;"></i> Cam Kết Của Football Store 24/7</h3>
+    <div class="about-box-highlight">
+      <ul style="margin-left: 20px;">
+        <li><b>Chất liệu bền đẹp:</b> Vải mè thể thao cao cấp, co giãn 4 chiều, siêu thấm hút và thoáng khí, không xù lông hay bai dão sau nhiều lần giặt.</li>
+        <li><b>Đa dạng mẫu mã:</b> Cập nhật liên tục các mùa giải mới nhất của giải Tây Ban Nha (La Liga), Ngoại Hạng Anh (Premier League), V-League cùng các đội tuyển quốc gia.</li>
+        <li><b>Dịch vụ in ấn chuyên nghiệp:</b> Hỗ trợ in tên số theo font chuẩn câu lạc bộ với công nghệ in nhiệt bền màu, sắc nét.</li>
+        <li><b>Chính sách bảo hành:</b> Đổi size miễn phí trong 7 ngày, kiểm tra hàng trước khi thanh toán tiền (COD).</li>
+      </ul>
+    </div>
+
+    <div style="margin-top: 30px; padding: 20px; background: #2c3e50; color: #fff; border-radius: 6px;">
+      <h4 style="margin: 0 0 10px 0; color: #f1c40f;">THÔNG TIN LIÊN HỆ CỬA HÀNG</h4>
+      <p style="margin: 5px 0; color: #ecf0f1;"><i class="fa fa-map-marker"></i> <b>Địa chỉ:</b> Đường Trịnh Văn Bô, Nam Từ Liêm, Hà Nội</p>
+      <p style="margin: 5px 0; color: #ecf0f1;"><i class="fa fa-phone"></i> <b>Hotline:</b> 024.2236.5888 - 0348.008.939</p>
+      <p style="margin: 5px 0; color: #ecf0f1;"><i class="fa fa-envelope"></i> <b>Email:</b> support@footballstore247.vn</p>
+      <p style="margin: 5px 0; color: #ecf0f1;"><i class="fa fa-clock-o"></i> <b>Giờ mở cửa:</b> 8:30 - 21:30 (Tất cả các ngày trong tuần)</p>
+    </div>
+
+    <div style="margin-top: 25px; text-align: center;">
+      <a href="../controller/index.php" style="display: inline-block; padding: 10px 25px; background: #e74c3c; color: #fff; text-decoration: none; border-radius: 20px; font-weight: 600;">
+        <i class="fa fa-arrow-left"></i> Quay lại mua sắm
+      </a>
+    </div>
+  </div>
 </div>

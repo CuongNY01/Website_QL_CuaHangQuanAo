@@ -1,8 +1,7 @@
 <?php
-        session_start();
-        include "../model/config.php";
-
-        if(isset($_SESSION['idAdmin'])){
-            unset($_SESSION['idAdmin']);
-        }
-        header("location: ../controller/indexAdmin.php");
+session_start();
+unset($_SESSION['idAdmin']);
+unset($_SESSION['userAd']);
+header("location: ../controller/indexAdmin.php");
+exit;
+?>

@@ -1,119 +1,157 @@
 <link rel="stylesheet" href="../view/css/carts.css">
 <link rel="stylesheet" href="../view/css/products.css">
+
 <?php
-if (!isset($_SESSION['giohang'])) $_SESSION['giohang'] = [];
-if (isset($_GET['delid']) && ($_GET['delid'] >= 0)) {
-    array_splice($_SESSION['giohang'], $_GET['delid'], 1);
+if (!isset($_SESSION['giohang'])) {
+    $_SESSION['giohang'] = [];
 }
 
+// Xóa 1 món hàng
+if (isset($_GET['delid']) && is_numeric($_GET['delid']) && isset($_SESSION['giohang'][$_GET['delid']])) {
+    array_splice($_SESSION['giohang'], $_GET['delid'], 1);
+    echo "<script>window.location.href='../controller/index.php?act=cart';</script>";
+    exit;
+}
+
+// Xóa toàn bộ giỏ hàng
+if (isset($_GET['clear']) && $_GET['clear'] == 1) {
+    $_SESSION['giohang'] = [];
+    echo "<script>window.location.href='../controller/index.php?act=cart';</script>";
+    exit;
+}
+
+// Thêm vào giỏ hàng
 if (isset($_POST['addcart'])) {
-    $hinh = $_POST['hinh'];
-    $ten = $_POST['tensp'];
-    $gia = $_POST['gia'];
-    $soluong = $_POST['soluong'];
+    $hinh = $_POST['hinh'] ?? '';
+    $ten = $_POST['tensp'] ?? '';
+    $gia = (int)($_POST['gia'] ?? 0);
+    $soluong = (int)($_POST['soluong'] ?? 1);
+    if ($soluong < 1) $soluong = 1;
+    $size = $_POST['size'] ?? 'L';
 
-
-    $fl = 0;
-    for ($i = 0; $i < sizeof($_SESSION['giohang']); $i++) {
+    $found = false;
+    for ($i = 0; $i < count($_SESSION['giohang']); $i++) {
         if ($_SESSION['giohang'][$i][1] == $ten) {
-            $fl = 1;
-            $slnew = $soluong + $_SESSION['giohang'][$i][3];
-            $_SESSION['giohang'][$i][3] = $slnew;
+            $_SESSION['giohang'][$i][3] += $soluong;
+            $found = true;
             break;
         }
     }
-    if ($fl == 0) {
-        $sp = [$hinh, $ten, $gia, $soluong];
+    if (!$found) {
+        $sp = [$hinh, $ten, $gia, $soluong, $size];
         $_SESSION['giohang'][] = $sp;
     }
+    echo "<script>window.location.href='../controller/index.php?act=cart';</script>";
+    exit;
 }
 
-function showcart()
-{
-    if (isset($_SESSION['giohang']) && (is_array($_SESSION['giohang']))) {
-        $tong = 0;
-        for ($i = 0; $i < sizeof($_SESSION['giohang']); $i++) {
-            $tt = $_SESSION['giohang'][$i][2] * $_SESSION['giohang'][$i][3];
-            $tong += $tt;
-
-            echo '
-                        <tr>
-                            <td>' . ($i + 1) . '</td>
-                            <td><img src="../view/images/' . $_SESSION['giohang'][$i][0] . '" alt=""></td>
-                            <td><p>' . $_SESSION['giohang'][$i][1] . '</p></td>
-                            <td><span>' . $_SESSION['giohang'][$i][2] . ' VNĐ</span></td>
-                            <td>
-                                <form action="">
-                                    <input type="text" value="' . $_SESSION['giohang'][$i][3] . '" name="soluong">
-                                </form>
-                            </td>
-                        <td><span>' . $tt . ' VNĐ</span></td>
-                        <td><a href="../controller/index.php?act=cart&delid=' . $i . '"><i class="fa-solid fa-trash"></i> </a></td>
-                        </tr>
-                ';
+// Cập nhật số lượng
+if (isset($_POST['update_cart']) && isset($_POST['qty']) && is_array($_POST['qty'])) {
+    foreach ($_POST['qty'] as $index => $qty) {
+        $qty = (int)$qty;
+        if (isset($_SESSION['giohang'][$index])) {
+            if ($qty > 0) {
+                $_SESSION['giohang'][$index][3] = $qty;
+            } else {
+                unset($_SESSION['giohang'][$index]);
+            }
         }
-        echo '
-                    <tr>
-                        <th colspan="4">Tổng Tiền </th>
-                        <th class="tong">' . $tong . ' VNĐ</th>
-                    </tr>
-        ';
     }
+    $_SESSION['giohang'] = array_values($_SESSION['giohang']);
+    echo "<script>window.location.href='../controller/index.php?act=cart';</script>";
+    exit;
 }
-
-function showcart_mobile()
-{
-    if (isset($_SESSION['giohang']) && (is_array($_SESSION['giohang']))) {
-        $tong = 0;
-        for ($i = 0; $i < sizeof($_SESSION['giohang']); $i++) {
-            $tt = $_SESSION['giohang'][$i][2] * $_SESSION['giohang'][$i][3];
-            $tong += $tt;
-            echo '
-            <div class="addcart">     
-                    <img src="../view/images/' . $_SESSION['giohang'][$i][0] . '" alt="">
-                    <p>' . $_SESSION['giohang'][$i][1] . '</p>
-                    <span>' . $_SESSION['giohang'][$i][2] . ' VNĐ</span> 
-                        <form action="">
-                            <input type="text" value="' . $_SESSION['giohang'][$i][3] . '" name="soluong">
-                        </form>
-                    <td><a href="../controller/index.php?act=cart&delid=' . $i . '"><i class="fa-solid fa-trash"></i> </a></td>
-                </div>  
-                ';
-        }
-        echo '<div class="datsp">
-
-        <p>Tổng cộng: <span class="tong"> ' . $tong . ' VNĐ</span></p>
-            </div>';
-    }
-}
-
-
 ?>
+
 <div class="banner">
-    <img src="https://file.hstatic.net/200000973638/file/bannernha.jpeg" alt=""
-        height="200px">
+    <img src="../view/images/bannerNHA.jpeg" alt="Giỏ Hàng" height="220px" style="object-fit: cover; width: 100%;">
 </div>
-<div class="main">
-    <h2>GIỎ HÀNG</h2>
-    <table>
-        <tr class="nen">
-            <th style="width: 200px;">Số Thứ Tự</th>
-            <th colspan="2">Sản phẩm</th>
-            <th>Đơn giá</th>
-            <th>Số lượng</th>
-            <th colspan="2">Thành tiền</th>
-        </tr>
-        <?php showcart(); ?>
 
-    </table>
-    <div class="mobile">
-        <?php showcart_mobile(); ?>
-    </div>
-    <div class="nut" style="display: grid;gap: 120px;grid-template-columns: 100px 100px; margin-left: 700px;">
-        <a href="../controller/thanhtoan.php" style="text-decoration: none;"><button class="dathang">Thanh
-                Toán</button></a>
-        <a href="../controller/index.php" style="text-decoration: none;"><button class="dathang">Tiếp Tục Đặt
-                Hàng</button></a>
-    </div>
+<div class="main" style="max-width: 1200px; margin: 30px auto; padding: 0 20px;">
+    <h2 style="text-align: center; color: #2c3e50; margin-bottom: 25px;">GIỎ HÀNG CỦA BẠN</h2>
 
+    <?php if (empty($_SESSION['giohang'])): ?>
+        <!-- Luồng thay thế: Giỏ hàng trống theo Use Case YC02 -->
+        <div style="text-align: center; padding: 60px 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin: 30px auto;">
+            <i class='bx bx-shopping-bag' style="font-size: 72px; color: #bdc3c7;"></i>
+            <h3 style="color: #7f8c8d; margin: 15px 0;">Giỏ hàng của bạn đang trống!</h3>
+            <p style="color: #95a5a6; margin-bottom: 25px;">Hãy khám phá các mẫu áo đấu bóng đá và trang phục thể thao mới nhất của chúng tôi.</p>
+            <a href="../controller/index.php" style="display: inline-block; padding: 12px 30px; background: #e74c3c; color: #fff; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 15px;">
+                <i class="fa fa-arrow-left"></i> TIẾP TỤC MUA SẮM
+            </a>
+        </div>
+    <?php else: ?>
+        <form method="POST" action="../controller/index.php?act=cart">
+            <table style="width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <thead>
+                    <tr class="nen" style="background: #2c3e50; color: #fff; text-align: center;">
+                        <th style="padding: 12px; width: 60px;">STT</th>
+                        <th style="width: 100px;">Ảnh</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Đơn giá</th>
+                        <th style="width: 120px;">Số lượng</th>
+                        <th>Thành tiền</th>
+                        <th style="width: 80px;">Xóa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $tong = 0;
+                    foreach ($_SESSION['giohang'] as $i => $item):
+                        $hinh = $item[0];
+                        $ten = $item[1];
+                        $gia = $item[2];
+                        $soluong = $item[3];
+                        $tt = $gia * $soluong;
+                        $tong += $tt;
+                    ?>
+                    <tr style="border-bottom: 1px solid #eee; text-align: center;">
+                        <td style="padding: 12px;"><?= ($i + 1) ?></td>
+                        <td>
+                            <img src="../view/images/<?= htmlspecialchars($hinh) ?>" alt="" style="width: 70px; height: 70px; object-fit: contain;">
+                        </td>
+                        <td style="text-align: left; font-weight: 600; color: #333;">
+                            <p style="margin: 0;"><?= htmlspecialchars($ten) ?></p>
+                        </td>
+                        <td style="color: #e74c3c; font-weight: 600;">
+                            <?= number_format($gia, 0, ',', '.') ?> VNĐ
+                        </td>
+                        <td>
+                            <input type="number" name="qty[<?= $i ?>]" value="<?= $soluong ?>" min="1" max="99" style="width: 60px; height: 32px; text-align: center; border: 1px solid #ccc; border-radius: 4px;">
+                        </td>
+                        <td style="color: #e74c3c; font-weight: 700;">
+                            <?= number_format($tt, 0, ',', '.') ?> VNĐ
+                        </td>
+                        <td>
+                            <a href="../controller/index.php?act=cart&delid=<?= $i ?>" onclick="return confirm('Bạn muốn xóa sản phẩm này khỏi giỏ hàng?');" style="color: #e74c3c; font-size: 18px;" title="Xóa món">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                    <tr style="background: #f8f9fa;">
+                        <td colspan="4" style="text-align: right; padding: 15px; font-weight: 700; font-size: 16px;">Tổng Tiền Thanh Toán:</td>
+                        <td colspan="3" style="text-align: left; padding: 15px; font-size: 20px; color: #e74c3c; font-weight: 700;">
+                            <?= number_format($tong, 0, ',', '.') ?> VNĐ
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 25px; flex-wrap: wrap; gap: 15px;">
+                <div>
+                    <input type="submit" name="update_cart" value="Cập nhật giỏ hàng" style="padding: 10px 20px; background: #6c757d; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">
+                    <a href="../controller/index.php?act=cart&clear=1" onclick="return confirm('Bạn có chắc muốn làm trống giỏ hàng?');" style="margin-left: 10px; padding: 10px 20px; background: #e74c3c; color: #fff; text-decoration: none; border-radius: 4px; font-weight: 600; display: inline-block;">Xóa hết giỏ hàng</a>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <a href="../controller/index.php" style="padding: 12px 25px; background: #f1f2f6; color: #333; text-decoration: none; border-radius: 4px; font-weight: 600;">
+                        <i class="fa fa-arrow-left"></i> Tiếp tục mua sắm
+                    </a>
+                    <a href="../controller/thanhtoan.php" style="padding: 12px 30px; background: #27ae60; color: #fff; text-decoration: none; border-radius: 4px; font-weight: 700; font-size: 15px; box-shadow: 0 4px 10px rgba(39,174,96,0.3);">
+                        Tiến hành đặt hàng <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </form>
+    <?php endif; ?>
 </div>

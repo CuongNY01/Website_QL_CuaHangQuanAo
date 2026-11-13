@@ -1,293 +1,284 @@
 <link rel="stylesheet" href="../view/css/carts.css">
 <link rel="stylesheet" href="../view/css/products.css">
+
 <?php
-if (!isset($_SESSION['giohang'])) $_SESSION['giohang'] = [];
-if (isset($_GET['delid']) && ($_GET['delid'] >= 0)) {
-    array_splice($_SESSION['giohang'], $_GET['delid'], 1);
+if (!isset($_SESSION['giohang'])) {
+    $_SESSION['giohang'] = [];
 }
 
-if (isset($_POST['addcart'])) {
-    $hinh = $_POST['hinh'];
-    $ten = $_POST['tensp'];
-    $gia = $_POST['gia'];
-    $soluong = $_POST['soluong'];
+$order_success = false;
+$order_info = [];
 
+// Xử lý mã giảm giá
+$discount_amount = 0;
+$voucher_code = '';
+$voucher_msg = '';
 
-    $fl = 0;
-    for ($i = 0; $i < sizeof($_SESSION['giohang']); $i++) {
-        if ($_SESSION['giohang'][$i][1] == $ten) {
-            $fl = 1;
-            $slnew = $soluong + $_SESSION['giohang'][$i][3];
-            $_SESSION['giohang'][$i][3] = $slnew;
-            break;
-        }
-    }
-    if ($fl == 0) {
-        $sp = [$hinh, $ten, $gia, $soluong];
-        $_SESSION['giohang'][] = $sp;
+if (isset($_POST['apply_voucher'])) {
+    $voucher_code = strtoupper(trim($_POST['voucher'] ?? ''));
+    if ($voucher_code === 'GIAM10' || $voucher_code === 'SALE10') {
+        $_SESSION['voucher_discount'] = 10; // Giảm 10%
+        $voucher_msg = "<span style='color: #27ae60;'><i class='fa fa-check'></i> Áp dụng thành công mã giảm 10%!</span>";
+    } else if ($voucher_code === 'FREESHIP') {
+        $_SESSION['voucher_discount'] = 'freeship';
+        $voucher_msg = "<span style='color: #27ae60;'><i class='fa fa-check'></i> Áp dụng thành công miễn phí vận chuyển!</span>";
+    } else if (!empty($voucher_code)) {
+        $voucher_msg = "<span style='color: #e74c3c;'><i class='fa fa-times'></i> Mã giảm giá không hợp lệ!</span>";
     }
 }
 
-function showcart()
-{
-    if (isset($_SESSION['giohang']) && (is_array($_SESSION['giohang']))) {
-        $tong = 0;
-        for ($i = 0; $i < sizeof($_SESSION['giohang']); $i++) {
-            $tt = $_SESSION['giohang'][$i][2] * $_SESSION['giohang'][$i][3];
-            $tong += $tt;
+// Tính tổng tiền giỏ hàng
+$tong_tien = 0;
+foreach ($_SESSION['giohang'] as $item) {
+    $tong_tien += ($item[2] * $item[3]);
+}
 
-            echo '
-                        <tr>
-                            <td>' . ($i + 1) . '</td>
-                            <td><img src="../view/images/' . $_SESSION['giohang'][$i][0] . '" alt=""></td>
-                            <td><p>' . $_SESSION['giohang'][$i][1] . '</p></td>
-                            <td><span>' . $_SESSION['giohang'][$i][2] . ' VNĐ</span></td>
-                            <td>
-                                <form action="">
-                                    <input type="text" value="' . $_SESSION['giohang'][$i][3] . '" name="soluong">
-                                </form>
-                            </td>
-                        <td><span>' . $tt . ' VNĐ</span></td>
-                        <td><a href="../controller/index.php?act=cart&delid=' . $i . '"><i class="fa-solid fa-trash"></i> </a></td>
-                        </tr>
-                ';
-        }
-        echo '
-                    <tr>
-                        <th colspan="4">Tổng Tiển </th>
-                        <th class="tong">' . $tong . ' VNĐ</th>
-                    </tr>
-        ';
+$phi_ship = ($tong_tien >= 500000 || ($_SESSION['voucher_discount'] ?? '') === 'freeship' || $tong_tien == 0) ? 0 : 30000;
+
+if (isset($_SESSION['voucher_discount']) && is_numeric($_SESSION['voucher_discount'])) {
+    $discount_amount = ($tong_tien * $_SESSION['voucher_discount']) / 100;
+}
+
+$thanh_toan = max(0, $tong_tien - $discount_amount + $phi_ship);
+
+// Xử lý xác nhận đặt hàng
+if (isset($_POST['confirm_order'])) {
+    $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $phone = trim($_POST['phone'] ?? '');
+    $address = trim($_POST['address'] ?? '');
+    $pttt = $_POST['pttt'] ?? 'COD';
+    $note = trim($_POST['note'] ?? '');
+
+    if ($name != "" && $phone != "" && $address != "") {
+        $order_id = "DH" . date("YmdHis");
+        $order_info = [
+            'id' => $order_id,
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'address' => $address,
+            'pttt' => $pttt,
+            'note' => $note,
+            'items' => $_SESSION['giohang'],
+            'subtotal' => $tong_tien,
+            'discount' => $discount_amount,
+            'shipping' => $phi_ship,
+            'total' => $thanh_toan,
+            'date' => date("d/m/Y H:i:s")
+        ];
+
+        // Giải phóng giỏ hàng theo đúng đặc tả Use Case Bảng 1.4
+        $_SESSION['giohang'] = [];
+        unset($_SESSION['voucher_discount']);
+        $order_success = true;
+    } else {
+        echo "<script>alert('Vui lòng điền đầy đủ họ tên, số điện thoại và địa chỉ giao hàng!');</script>";
     }
 }
 
-function showcart_mobile()
-{
-    if (isset($_SESSION['giohang']) && (is_array($_SESSION['giohang']))) {
-        $tong = 0;
-        for ($i = 0; $i < sizeof($_SESSION['giohang']); $i++) {
-            $tt = $_SESSION['giohang'][$i][2] * $_SESSION['giohang'][$i][3];
-            $tong += $tt;
-            echo '
-            <div class="addcart">     
-                    <img src="../view/images/' . $_SESSION['giohang'][$i][0] . '" alt="">
-                    <p>' . $_SESSION['giohang'][$i][1] . '</p>
-                    <span>' . $_SESSION['giohang'][$i][2] . ' VNĐ</span> 
-                        <form action="">
-                            <input type="text" value="' . $_SESSION['giohang'][$i][3] . '" name="soluong">
-                        </form>
-                    <td><a href="../controller/index.php?act=cart&delid=' . $i . '"><i class="fa-solid fa-trash"></i> </a></td>
-                </div>  
-                ';
-        }
-        echo '<div class="datsp">
-
-        <p>Tổng cộng: <span class="tong"> ' . $tong . ' VNĐ</span></p>
-            </div>';
-    }
-}
-
-
+// Prefill thông tin nếu đã đăng nhập
+$pre_name = $_SESSION['name'] ?? '';
+$pre_email = $_SESSION['email'] ?? '';
 ?>
+
 <div class="banner">
-    <img src="https://file.hstatic.net/200000973638/file/banner4.png" alt="" height="280px">
+    <img src="../view/images/banner4.png" alt="Thanh Toán" height="220px" style="object-fit: cover; width: 100%;">
 </div>
-<div class="main">
-    <h2>THANH TOÁN</h2>
-    <div class="check-out-voucher" style="margin-left: 200px; margin-top: 30px;">
-        <form action="" method="post" class="form-box">
-            <label for="" style="        color: rgba(0, 0, 0, 0.6);">Mã giảm giá</label>
-            <input type="text" name="" id="" class="form-control" style="width: 200px;height: 30px;border: 2px solid rgba(0, 0, 0, 0.1);border-radius: 5px;outline: none;transition: all 0.2s linear;color: rgba(0, 0, 0, 0.6);">
-            <input type="submit" value="Sử Dụng" class="btn" style="padding: 5px 30px;background-color: #000000;color: #FFFFFF;font-size: 14px; height: 35px; border-radius: 5px;">
-        </form>
-    </div>
-    <table>
-        <tr class="nen">
-            <th style="width: 50px;"></th>
-            <th colspan="2">Sản phẩm</th>
-            <th>Đơn giá</th>
-            <th>Số lượng</th>
-            <th colspan="2">Thành tiền</th>
-        </tr>
-        <?php showcart(); ?>
 
-    </table>
-    <div class="mobile">
-        <?php showcart_mobile(); ?>
-    </div>
+<div class="main" style="max-width: 1200px; margin: 30px auto; padding: 0 20px;">
+    <?php if ($order_success): ?>
+        <!-- Giao diện thông báo Đặt hàng thành công -->
+        <div style="text-align: center; padding: 50px 30px; background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin: 30px auto; max-width: 800px;">
+            <i class='bx bx-check-circle' style="font-size: 80px; color: #27ae60;"></i>
+            <h2 style="color: #27ae60; margin: 15px 0;">ĐẶT HÀNG THÀNH CÔNG!</h2>
+            <p style="font-size: 16px; color: #555;">Cảm ơn quý khách <b><?= htmlspecialchars($order_info['name']) ?></b> đã tin tưởng đặt mua quần áo thời trang tại <b>Football Store 24/7</b>.</p>
+            <p style="color: #7f8c8d; font-size: 14px;">Mã đơn hàng: <b style="color: #e74c3c; font-size: 16px;"><?= $order_info['id'] ?></b> | Ngày đặt: <?= $order_info['date'] ?></p>
 
-</div>
-<main>
-    <div class="con" style="       display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 50px -165px;">
-        <div class="form-contact-box">
-            <h4 style="margin: 0px auto; text-align: center;">Thông tin thanh toán</h4>
-            <form action="" id="contact" style="margin: 0px -165px;">
-                <div class="form-box">
-                    <div class="form-group">
-                        <label for="" style="        color: rgba(0, 0, 0, 0.6);">Phương thức thanh toán</label>
-                        <select name="" id="" style="width: 900px;height: 40px;border: 2px solid rgba(0, 0, 0, 0.1);border-radius: 5px;outline: none;transition: all 0.2s linear;color: rgba(0, 0, 0, 0.6);" class="form-control">
-                            <option value="1">Chọn phương thức thanh toán</option>
-                            <option value="2">Thanh toán khi nhận hàng</option>
-                            <option value="3">Thanh toán bằng Ví MoMo</option>
-                            <option value="4">Thanh toán bằng Viettel Money</option>
-                            <option value="5">Thanh toán bằng Ví ZaloPay</option>
-                            <option value="6">Thanh toán bằng ATM nội địa</option>
-                            <option value="7">Thanh toán bằng VNPT Money</option>
+            <div style="background: #f8f9fa; border-radius: 6px; padding: 20px; margin: 25px 0; text-align: left; font-size: 14px;">
+                <h4 style="margin-bottom: 10px; color: #2c3e50; border-bottom: 1px solid #ddd; padding-bottom: 8px;">Thông Tin Nhận Hàng</h4>
+                <p><b>Người nhận:</b> <?= htmlspecialchars($order_info['name']) ?> - <b>SĐT:</b> <?= htmlspecialchars($order_info['phone']) ?></p>
+                <p><b>Email:</b> <?= htmlspecialchars($order_info['email']) ?></p>
+                <p><b>Địa chỉ giao nhận:</b> <?= htmlspecialchars($order_info['address']) ?></p>
+                <p><b>Hình thức thanh toán:</b> <?= htmlspecialchars($order_info['pttt']) ?></p>
+                <?php if (!empty($order_info['note'])): ?>
+                    <p><b>Ghi chú:</b> <?= htmlspecialchars($order_info['note']) ?></p>
+                <?php endif; ?>
+                <p style="margin-top: 10px; font-size: 16px; font-weight: 700; color: #e74c3c;">Tổng thanh toán: <?= number_format($order_info['total'], 0, ',', '.') ?> VNĐ</p>
+            </div>
+
+            <p style="color: #555; font-size: 14px;">Nhân viên chăm sóc khách hàng sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận đơn hàng.</p>
+            <div style="margin-top: 25px;">
+                <a href="../controller/index.php" style="display: inline-block; padding: 12px 35px; background: #007bff; color: #fff; text-decoration: none; border-radius: 25px; font-weight: 600;">
+                    <i class="fa fa-shopping-bag"></i> Tiếp tục mua sắm
+                </a>
+            </div>
+        </div>
+
+    <?php elseif (empty($_SESSION['giohang'])): ?>
+        <!-- Luồng giỏ hàng trống -->
+        <div style="text-align: center; padding: 60px 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin: 30px auto;">
+            <i class='bx bx-cart-alt' style="font-size: 72px; color: #bdc3c7;"></i>
+            <h3 style="color: #7f8c8d; margin: 15px 0;">Giỏ hàng của bạn đang trống!</h3>
+            <p style="color: #95a5a6; margin-bottom: 25px;">Vui lòng thêm sản phẩm vào giỏ trước khi tiến hành thanh toán.</p>
+            <a href="../controller/index.php" style="display: inline-block; padding: 12px 30px; background: #e74c3c; color: #fff; text-decoration: none; border-radius: 25px; font-weight: 600;">
+                <i class="fa fa-arrow-left"></i> Xem sản phẩm
+            </a>
+        </div>
+
+    <?php else: ?>
+        <h2 style="text-align: center; color: #2c3e50; margin-bottom: 25px;">TIẾN HÀNH THANH TOÁN & ĐẶT HÀNG</h2>
+
+        <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+            <!-- Cột trái: Thông tin giao nhận hàng -->
+            <div style="flex: 1.2; min-width: 350px; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <h3 style="color: #2c3e50; margin-bottom: 20px; font-size: 18px; border-bottom: 2px solid #007bff; padding-bottom: 8px;">
+                    <i class="fa fa-map-marker" style="color: #e74c3c;"></i> Thông Tin Giao Hàng
+                </h3>
+
+                <form action="../controller/thanhtoan.php" method="POST" id="checkout-form">
+                    <div style="margin-bottom: 15px;">
+                        <label style="font-weight: 600; display: block; margin-bottom: 5px; font-size: 14px;">Họ và tên người nhận <span style="color:red;">*</span></label>
+                        <input type="text" name="name" required value="<?= htmlspecialchars($pre_name) ?>" placeholder="Nguyễn Văn A" style="width: 100%; height: 40px; padding: 5px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+                    </div>
+
+                    <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                        <div style="flex: 1;">
+                            <label style="font-weight: 600; display: block; margin-bottom: 5px; font-size: 14px;">Số điện thoại <span style="color:red;">*</span></label>
+                            <input type="text" name="phone" required placeholder="0987xxxxxx" style="width: 100%; height: 40px; padding: 5px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+                        </div>
+                        <div style="flex: 1;">
+                            <label style="font-weight: 600; display: block; margin-bottom: 5px; font-size: 14px;">Email</label>
+                            <input type="email" name="email" value="<?= htmlspecialchars($pre_email) ?>" placeholder="email@domain.com" style="width: 100%; height: 40px; padding: 5px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label style="font-weight: 600; display: block; margin-bottom: 5px; font-size: 14px;">Địa chỉ nhận hàng chi tiết <span style="color:red;">*</span></label>
+                        <input type="text" name="address" required placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/TP" style="width: 100%; height: 40px; padding: 5px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="font-weight: 600; display: block; margin-bottom: 5px; font-size: 14px;">Phương thức thanh toán <span style="color:red;">*</span></label>
+                        <select name="pttt" style="width: 100%; height: 42px; padding: 5px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; background: #fff;">
+                            <option value="COD - Trả tiền khi nhận hàng (Thanh toán tại nhà)">COD - Thanh toán tiền mặt khi nhận hàng (Khuyên dùng)</option>
+                            <option value="Ví điện tử MoMo">Thanh toán qua Ví điện tử MoMo</option>
+                            <option value="Ví điện tử ZaloPay">Thanh toán qua Ví ZaloPay</option>
+                            <option value="Viettel Money">Thanh toán qua Viettel Money</option>
+                            <option value="Chuyển khoản ATM / Mobile Banking">Chuyển khoản ATM / Internet Banking nội địa</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="">Họ và tên</label>
-                        <input class="form-control" name="name" id="name" type="text" rules="required">
-                        <span class="error-message"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Email</label>
-                        <input class="form-control" name="email" id="email" type="text" rules="required|email">
-                        <span class="error-message"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Số điện thoại</label>
-                        <input class="form-control" name="" id="subject" type="text" rules="required">
-                        <span class="error-message"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Địa chỉ</label>
-                        <input class="form-control" name="" id="subject" type="text" rules="required">
-                        <span class="error-message"></span>
-                    </div>
-                </div>
-                <button type="submit" style="width: 200px;">Hoàn tất đơn hàng</button>
-                <button type="submit" style="width: 200px; background-color: #FFFFFF;"><a href="../controller/index.php">
-                        < Tiếp tục mua sắp</a></button>
-            </form>
-        </div>
 
-    </div>
-    <div class="box-policy" style=" display: flex;
- justify-content: center;
- align-items: center;
- margin:50px auto;
- margin-left: 100px;">
-        <div class="iteam" style="width: 220px;">
-            <div class="logo">
-                <img src="../view/images/icons8_Hotline_100px_2 1.png" alt="" style="height: 100px; width: 100px;">
+                    <div style="margin-bottom: 20px;">
+                        <label style="font-weight: 600; display: block; margin-bottom: 5px; font-size: 14px;">Ghi chú giao hàng (Size, thời gian nhận...):</label>
+                        <textarea name="note" rows="3" placeholder="Ghi chú thêm cho người giao hàng..." style="width: 100%; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;"></textarea>
+                    </div>
+
+                    <input type="submit" name="confirm_order" value="XÁC NHẬN ĐẶT HÀNG" style="width: 100%; height: 48px; background: #e74c3c; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(231,76,60,0.3);">
+                </form>
             </div>
-            <div class="content">
-                <div class="title" style="       font-size: 18px;">Phục vụ 24/24</div>
-                <div class="see-detail">
-                    <a href="" style="   text-decoration: none;
-            font-size: 14px;">Xem thêm</a>
+
+            <!-- Cột phải: Tóm tắt đơn hàng & Áp dụng voucher -->
+            <div style="flex: 1; min-width: 320px;">
+                <!-- Box voucher -->
+                <div style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px;">
+                    <h4 style="color: #2c3e50; margin-bottom: 12px; font-size: 16px;"><i class="fa fa-tag" style="color: #f39c12;"></i> Mã Giảm Giá / Voucher</h4>
+                    <form method="POST" action="../controller/thanhtoan.php" style="display: flex; gap: 8px;">
+                        <input type="text" name="voucher" placeholder="Nhập mã (VD: GIAM10, FREESHIP)" style="flex: 1; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px;">
+                        <input type="submit" name="apply_voucher" value="Áp Dụng" style="padding: 0 16px; height: 38px; background: #2c3e50; color: #fff; border: none; border-radius: 4px; font-weight: 600; cursor: pointer;">
+                    </form>
+                    <?php if (!empty($voucher_msg)): ?>
+                        <div style="margin-top: 8px; font-size: 13px;"><?= $voucher_msg ?></div>
+                    <?php endif; ?>
+                </div>
+
+                <!-- Box tóm tắt đơn hàng -->
+                <div style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                    <h4 style="color: #2c3e50; margin-bottom: 15px; font-size: 16px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                        Đơn Hàng Của Bạn (<?= count($_SESSION['giohang']) ?> món)
+                    </h4>
+
+                    <div style="max-height: 250px; overflow-y: auto; margin-bottom: 15px;">
+                        <?php foreach ($_SESSION['giohang'] as $item): ?>
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px; border-bottom: 1px dashed #f0f0f0; padding-bottom: 8px;">
+                                <img src="../view/images/<?= htmlspecialchars($item[0]) ?>" alt="" style="width: 45px; height: 45px; object-fit: contain; border: 1px solid #eee; border-radius: 4px;">
+                                <div style="flex: 1;">
+                                    <p style="margin: 0; font-size: 13px; font-weight: 600; color: #333;"><?= htmlspecialchars($item[1]) ?></p>
+                                    <span style="font-size: 12px; color: #888;">Số lượng: <?= $item[3] ?></span>
+                                </div>
+                                <span style="font-size: 13px; font-weight: 600; color: #e74c3c;">
+                                    <?= number_format($item[2] * $item[3], 0, ',', '.') ?> đ
+                                </span>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <div style="border-top: 1px solid #eee; padding-top: 10px; font-size: 14px; line-height: 1.8;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: #666;">Tạm tính:</span>
+                            <span style="font-weight: 600;"><?= number_format($tong_tien, 0, ',', '.') ?> VNĐ</span>
+                        </div>
+                        <?php if ($discount_amount > 0): ?>
+                        <div style="display: flex; justify-content: space-between; color: #27ae60;">
+                            <span>Giảm giá:</span>
+                            <span>-<?= number_format($discount_amount, 0, ',', '.') ?> VNĐ</span>
+                        </div>
+                        <?php endif; ?>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: #666;">Phí vận chuyển:</span>
+                            <span style="font-weight: 600;">
+                                <?= $phi_ship == 0 ? '<span style="color:#27ae60;">Miễn phí</span>' : number_format($phi_ship, 0, ',', '.') . ' VNĐ' ?>
+                            </span>
+                        </div>
+                        <hr style="margin: 10px 0; border: none; border-top: 1px solid #eee;">
+                        <div style="display: flex; justify-content: space-between; font-size: 17px; font-weight: 700; color: #e74c3c;">
+                            <span>Tổng thanh toán:</span>
+                            <span><?= number_format($thanh_toan, 0, ',', '.') ?> VNĐ</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="iteam" style="width: 220px;">
+    <?php endif; ?>
+</div>
+
+<main>
+    <div class="box-policy" style="display: flex; justify-content: center; align-items: center; margin: 40px auto; gap: 20px; flex-wrap: wrap;">
+        <div class="iteam" style="width: 220px; text-align: center; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
             <div class="logo">
-                <img src="../view/images/icons8_online_shopping_240px 1.png" alt="" style="height: 100px; width: 100px;">
+                <img src="../view/images/icons8_Hotline_100px_2 1.png" alt="" style="height: 60px; width: 60px;">
             </div>
-            <div class="content">
-                <div class="title" style="       font-size: 18px;">Mua sắm online</div>
-                <div class="see-detail">
-                    <a href="" style="   text-decoration: none;
-            font-size: 14px;">Xem thêm</a>
-                </div>
+            <div class="content" style="margin-top: 10px;">
+                <div class="title" style="font-size: 16px; font-weight: 600;">Hỗ trợ 24/7</div>
+                <div style="font-size: 13px; color: #888;">Hotline: 024.2236.5888</div>
             </div>
         </div>
-        <div class="iteam" style="width: 220px;">
+        <div class="iteam" style="width: 220px; text-align: center; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
             <div class="logo">
-                <img src="../view/images/icons8_card_payment_240px 1.png" alt="" style="height: 100px; width: 100px;">
+                <img src="../view/images/icons8_online_shopping_240px 1.png" alt="" style="height: 60px; width: 60px;">
             </div>
-            <div class="content">
-                <div class="title" style="       font-size: 18px;">Thanh toán online</div>
-                <div class="see-detail">
-                    <a href="" style="   text-decoration: none;
-            font-size: 14px;">Xem thêm</a>
-                </div>
+            <div class="content" style="margin-top: 10px;">
+                <div class="title" style="font-size: 16px; font-weight: 600;">Mua sắm tiện lợi</div>
+                <div style="font-size: 13px; color: #888;">Giao hàng tận nơi</div>
             </div>
         </div>
-        <div class="iteam" style="width: 220px;">
+        <div class="iteam" style="width: 220px; text-align: center; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
             <div class="logo">
-                <img src="../view/images/icons8_shipped_100px 1.png" alt="" style="height: 100px; width: 100px;">
+                <img src="../view/images/icons8_card_payment_240px 1.png" alt="" style="height: 60px; width: 60px;">
             </div>
-            <div class="content">
-                <div class="title" style="       font-size: 18px;">Vận chuyển free</div>
-                <div class="see-detail">
-                    <a href="" style="   text-decoration: none;
-            font-size: 14px;">Xem thêm</a>
-                </div>
+            <div class="content" style="margin-top: 10px;">
+                <div class="title" style="font-size: 16px; font-weight: 600;">Đa dạng thanh toán</div>
+                <div style="font-size: 13px; color: #888;">COD, Ví MoMo, ZaloPay</div>
+            </div>
+        </div>
+        <div class="iteam" style="width: 220px; text-align: center; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+            <div class="logo">
+                <img src="../view/images/icons8_shipped_100px 1.png" alt="" style="height: 60px; width: 60px;">
+            </div>
+            <div class="content" style="margin-top: 10px;">
+                <div class="title" style="font-size: 16px; font-weight: 600;">Đổi trả linh hoạt</div>
+                <div style="font-size: 13px; color: #888;">Đổi size trong 7 ngày</div>
             </div>
         </div>
     </div>
 </main>
-<style>
-    a {
-        text-decoration: none;
-        color: black;
-    }
-
-    .contact {
-        margin-bottom: 24px;
-    }
-
-    .contact .box-heading {
-        text-align: center;
-        margin: 15px 0;
-    }
-
-    #contact {
-        display: flex;
-        width: auto;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #contact .form-box {
-        width: 900px;
-    }
-
-    #contact .form-group {
-        display: flex;
-        flex-direction: column;
-        padding: 8px 0;
-        position: relative;
-    }
-
-    #contact .form-group label {
-        color: rgba(0, 0, 0, 0.6);
-    }
-
-    #contact .form-group .form-control,
-    .product-detail-add-cart input,
-    .filter select {
-        border: 2px solid rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-        outline: none;
-        transition: all 0.2s linear;
-        color: rgba(0, 0, 0, 0.6);
-    }
-
-    #contact .form-group .form-control {
-        padding: 8px 12px;
-        margin: 6px 0;
-    }
-
-    #contact textarea.form-control {
-        resize: none;
-        height: 80px;
-    }
-
-    #contact button {
-        padding: 10px 30px;
-        background-color: #000000;
-        color: #FFFFFF;
-        font-size: 14px;
-        text-align: center;
-        border-radius: 10px;
-        border: none;
-        margin: 20px 0;
-        width: auto;
-        transition: all 0.25s ease-in;
-    }
-</style>

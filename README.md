@@ -1,6 +1,9 @@
-# ⚽ Website Bán Đồ Thể Thao & Áo Đấu Bóng Đá (Football Store 24/7)
+# ⚽ Website Quản Lý Bán Quần Áo - Football Store 24/7
 
-> **Dự án Bài tập lớn / Dự án 1** - Xây dựng website thương mại điện tử chuyên kinh doanh áo thi đấu câu lạc bộ bóng đá (La Liga, Premier League, V-League) và phụ kiện thể thao, ứng dụng kiến trúc **MVC thuần (PHP & MySQL)**.
+> **Học phần:** Chuyên đề tốt nghiệp 1 - Trường Đại học Công nghệ Đông Á (EAUT)  
+> **Sinh viên thực hiện:** Dương Bá Công  
+> **Giảng viên hướng dẫn:** ThS. Hà Trọng Thắng  
+> **Đề tài:** Website thương mại điện tử chuyên kinh doanh áo thi đấu câu lạc bộ bóng đá (La Liga, Premier League, V-League) và trang phục thời trang thể thao, ứng dụng kiến trúc **MVC thuần (PHP & MySQL)**.
 
 ---
 
@@ -99,8 +102,8 @@ Dự án được tổ chức theo mô hình **Model - View - Controller (MVC)**
      ```
 
 5. **Truy cập ứng dụng:**
-   - 🌐 **Giao diện người dùng:** `http://localhost/BTL_HungPham/` (hoặc `http://localhost:8000/`)
-   - ⚙️ **Giao diện quản trị Admin:** `http://localhost/BTL_HungPham/controller/indexAdmin.php`
+   - 🌐 **Giao diện người dùng:** `http://localhost/Website_quanlybanQA/` (hoặc `http://localhost:8000/`)
+   - ⚙️ **Giao diện quản trị Admin:** `http://localhost/Website_quanlybanQA/controller/indexAdmin.php`
 
 ---
 
@@ -118,7 +121,7 @@ Dự án được tổ chức theo mô hình **Model - View - Controller (MVC)**
 ## 📂 Cấu trúc thư mục
 
 ```text
-BTL_HungPham/
+Website_quanlybanQA/
 │
 ├── controller/            # Bộ điều hướng trung tâm
 │   ├── index.php          # Điều hướng giao diện khách hàng

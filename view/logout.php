@@ -1,12 +1,11 @@
 <?php  
-    session_start();
-       include "../model/config.php";
-
-        if(isset($_SESSION['name'])){
-            unset($_SESSION['name']);
-            unset($_SESSION['avata']);
-            unset($_SESSION['giohang']);
-               header("location: ../controller/index.php?act=login");
-        }
- 
+session_start();
+unset($_SESSION['name']);
+unset($_SESSION['username']);
+unset($_SESSION['id']);
+unset($_SESSION['email']);
+unset($_SESSION['avata']);
+unset($_SESSION['password']);
+header("location: ../controller/index.php?act=login");
+exit;
 ?>

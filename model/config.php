@@ -1,27 +1,38 @@
 <?php
   function pdo_con(){
-    $is_localhost = in_array($_SERVER['HTTP_HOST'] ?? '', ['localhost', '127.0.0.1', 'localhost:8000']);
+    $http_host = $_SERVER['HTTP_HOST'] ?? '';
+    $is_infinityfree = (strpos($http_host, 'infinityfree') !== false || strpos($http_host, 'epizy.com') !== false);
 
-    if ($is_localhost) {
-      $servername = "localhost";
-      $username = "root";
-      $password = "";
-      $dbname = "duanmau";
-    } else {
+    if ($is_infinityfree) {
       $servername = "sql302.infinityfree.com";
       $username = "if0_43184606";
       $password = "8gZKYLk9Rk6UBlL";
       $dbname = "if0_43184606_duan1";
+    } else {
+      $servername = "localhost";
+      $username = "root";
+      $password = "";
+      $dbname = "duanmau";
     }
 
     try {
-      $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+      $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
       // set the PDO error mode to exception
       $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      $conn -> query("SET NAMES 'utf8'");
       return $conn;
     } catch(PDOException $e) {
+      if (!$is_infinityfree && $dbname === "duanmau") {
+        try {
+          $conn = new PDO("mysql:host=$servername;dbname=duan1;charset=utf8", $username, $password);
+          $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          return $conn;
+        } catch(PDOException $e2) {
+          echo "Lỗi kết nối: " . $e->getMessage();
+          return null;
+        }
+      }
       echo "Lỗi kết nối: " . $e->getMessage();
+      return null;
     }
   }
 

@@ -1,95 +1,107 @@
 <link rel="stylesheet" href="../view/css/products.css">
 <link rel="stylesheet" href="../view/css/baiviet.css">
+
 <div class="banner">
-    <img src="../view/images/balo_simplecarry.jpg" alt="">
+    <img src="../view/images/banner10.jpg" alt="Tin tức thời trang thể thao" style="width: 100%; height: 260px; object-fit: cover;">
 </div>
-<div class="product">
+
+<div class="product" style="max-width: 1000px; margin: 30px auto; padding: 0 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 35px;">
     <div class="chitiet">
-        <h2>TOP VALI KÉO SIZE ĐẠI SIÊU BỀN DÙNG TRONG DỊP HÈ 2022</h2>
-        <p>Lại một mùa Hè nữa sắp tới và chắc hẳn nhu cầu về hành lý về quê, di chuyển của mọi người vào dịp hè
-            sẽ tăng lên. Bule Chic gợi ý cho bạn những mẫu vali kéo size đại thích hợp cho cả gia đình về quê, đi du
-            lịch, những chuyến đi dài ngày dịp hè 2022 sắp tới. Mọi người hãy cùng tham khảo chọn cho mình
-            một chiếc vali kéo phù hợp nhé.</p>
-        <h3>1. Vali kéo Sakos Winner 7 </h3>
-        <p>Đầu tiên trong các dòng vali kéo size to chắc chắn phải nhắc đến thương hiệu Sakos. Sakos- Thương hiệu vali
-            cao cấp của Mỹ cho ra mắt dòng sản phẩm vali kéo Winner gồm 3 size 5 tấc, 6 tấc và 7 tấc.</p>
+        <span style="background: #e74c3c; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; text-transform: uppercase;">Xu hướng thời trang</span>
+        <h1 style="color: #2c3e50; font-size: 26px; margin: 15px 0 10px 0; line-height: 1.4;">XU HƯỚNG THỜI TRANG BÓNG ĐÁ VÀ CÁCH PHỐI ĐỒ STREETWEAR THỜI THƯỢNG 2024 - 2025</h1>
+        <p style="color: #7f8c8d; font-size: 13px; margin-bottom: 25px;"><i class="fa fa-calendar"></i> Cập nhật: Mùa giải 2024/2025 | Đăng bởi: Ban biên tập Football Store 24/7</p>
 
-        <p>Vali Sakos Winner được sản xuất từ chất liệu vải polyester cao cấp- 100% chất liệu vải đều được
-            kiểm định formaldehyde và amin thơm nên đảm bảo an toàn với người sử dụng. Đặc tính nổi bật
-            của vali Sakos Winner dành riêng cho khách du lịch còn được ghi điểm hoàn hảo trong mắt người
-            dùng bởi tính năng trượt nước ưu việt, chống bám bụi, chống nhiệt tốt.</p>
-
-        <p>Vali Sakos Winner được tích hợp bộ đôi siêu chống trộm thông minh: công nghệ dây kéo đôi double teeth
-            zipper và khóa TSA chống trộm tiêu chuẩn quốc tế giúp tăng tính năng bảo vệ lên gấp 2 lần. Với
-            công nghệ đột phá mới, độc quyền chỉ có ở Sakos với thiết kế ngăn hành lý siêu rộng, nắp
-            chống đổ hành lý chắc chắn và đa chức năng, siêu an toàn, siêu đẳng cấp.</p>
-
-        <p>Cần kéo hợp kim cấu trúc hình học chắc chắn, dễ dàng tùy chỉnh phù hợp mọi vóc dáng và đa
-            dạng địa hình.</p>
-
-        <p>Khách du lịch sẽ thoải mái hơn khi chiếc cần kéo cao cấp của Sakos phối hợp với 4 bánh xe nhựa
-            dành riêng bằng chất liệu PU chống mòn, khả năng xoay 360 độ linh hoạt.</p>
-
-        <p>Đặc biệt, túi trữ dầu được tích hợp bên trong bánh xe, khi bánh xe di chuyển kích hoạt cơ chế
-            tự động bơm dầu vào bánh xe giúp nó hoạt động siêu êm ái, đặc biệt không gây ra tiếng ồn khi
-            hoạt động trên mọi địa hình</p>
-
-        <p>Kích thước 78.50.37 cm</p>
-
-        <p>Trọng lượng 3,9 kg</p>
-
-        <p>Tải trọng 35 kg</p>
-
-        <p>Bảo hành 5 năm( cần kéo, bánh xe, khóa) </p>
-        <img src="../view/images/tintuc_vali sakos size dai.jpg" alt="">
-        <img src="../view/images/tintucbaiviet.jpg" alt="">
-        <h3>2. Vali kéo Sakos Paralle </h3>
-
-        <p>Vali kéo SAKOS PARALLE được phủ vân nhám cách điệu chống trầy xước. Khi di chuyển bằng máy bay hoặc xe khách,
-            vali kéo của bạn sẽ được đặt trên boong hoặc gầm cốp xe. Sự tiếp xúc giữa sàn, gầm chứa cát sạn khả năng cao
-            sẽ gây ra trầy xước đối với bề mặt vali.</p>
-
-        <p>Trường hợp này hầu như không diễn ra với SAKOS PARALLE. Bề mặt phủ nhám là lợi thế khiến chiếc vali nhựa này
-            không bị trầy xước và luôn sáng mịn, bền màu cùng thời gian. Vì vậy, dù sử dụng lâu nhưng PARALLE vẫn luôn
-            như mới.</p>
-
-        <p>Chất liệu Polypropylen</p>
-
-        <p>Trọng lượng 3.9 kg</p>
-
-        <p>Kích thước 48x29x75 cm</p>
-
-        <p>Tải trọng tối đa 35 kg</p>
-
-        <p>Thời hạn bảo hành 5 năm</p>
-
-        <p>Mua balo đẹp vali kéo đẹp Sakos chính hãng qua đại lý ủy quyền thuộc Công ty Cổ Phần POPO Việt Nam</p>
-        <img src="../view/images/tintucbaiviet1.jpg" alt="">
-
-        <h3>3. Vali kéo Brother 618 </h3>
-
-        <p>Thương hiệu Brother nổi tiếng với các mẫu vali kéo thời trang từ chất liệu vải và nhựa ABS đàn hồi cao
-            cấp,các sản phẩm tại đây được sản xuất trên dây chuyền hiện đại với công nghệ phủ lớp chống trầy sước lên bề
-            mặt sản phẩm.</p>
-
-        <p>Vali Brother 618 size 28 nằm trong seri mẫu Br618 với chất liệu nhựa ABS đàn hồi,trọng tải tốt và chịu được
-            lực va đập mạnh,sản phẩm thuộc mẫu vali size to phù hợp đựng hành lý cho cả gia đình trong những chuyến đi.
+        <p style="line-height: 1.8; font-size: 15px; color: #444;">
+            Trong những năm gần đây, trang phục thi đấu bóng đá không còn đơn thuần gói gọn trên sân cỏ 90 phút mà đã bùng nổ trở thành một biểu tượng mạnh mẽ của văn hóa <b>thời trang đường phố (Blokecore / Streetwear)</b>. Những chiếc áo đấu từ giải Ngoại Hạng Anh, La Liga cho đến giải quốc nội V-League được giới trẻ và các tín đồ thời trang biến tấu linh hoạt trong phong cách ăn mặc hàng ngày.
         </p>
 
-        <p>Kích thước : 72x47x28 cm</p>
+        <div style="text-align: center; margin: 25px 0;">
+            <img src="../view/images/Real.jpg" alt="Áo Đấu Real Madrid" style="max-width: 480px; width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+            <p style="font-size: 13px; color: #7f8c8d; font-style: italic; margin-top: 8px;">Áo đấu Real Madrid mùa giải mới - sự kết hợp đỉnh cao giữa thể thao và phong cách quý tộc</p>
+        </div>
 
-        <p>Chất liệu : Nhựa ABS đàn hồi Vali được trang bị khóa số TSA theo tiêu chuẩn quốc tế giúp bảo vệ hành lý an
-            toàn tuyệt đối Cần kéo được làm từ hợp kim nhôm chắc chắn và sáng bóng Chế độ 2 nấc kéo giúp người dùng có
-            thể tùy chỉnh theo ý muốn Hệ thống bánh xe đôi xoay 360 độ tại 4 góc giúp di chuyển linh hoạt trên mọi địa
-            hình Sản phẩm dễ dàng vệ sinh khi cần thiết Chế độ bảo hành 1 năm cho các lỗi về cần kéo,bánh xe và khóa</p>
-        <img src="../view/images/tintucbaiviet2.jpg" alt="">
-        <p>Ngoài những mẫu shop giới thiệu trên thì tại shop còn có rất nhiều mẫu vali kéo khác, bạn có thể tham khảo
-            thêm tại website baloonline.com hoặc mua hàng trực tiếp tại hệ thống cửa hàng bluechic.shop hoặc liên hệ
-            qua tổng đài miễn cước 0961022334 để được hỗ trợ nhanh nhất.</p>
+        <h3 style="color: #2c3e50; font-size: 20px; margin: 25px 0 10px 0;">1. Chất liệu công nghệ cao trong trang phục thể thao hiện đại</h3>
+        <p style="line-height: 1.8; font-size: 15px; color: #444;">
+            Các mẫu áo quần thể thao tại <b>Football Store 24/7</b> đều ứng dụng công nghệ dệt vải sợi mè kim cương hoặc mè caro siêu nhẹ. Đặc tính ưu việt của dòng vải này bao gồm:
+        </p>
+        <ul style="line-height: 1.8; font-size: 15px; color: #444; margin-left: 20px; margin-bottom: 20px;">
+            <li><b>Thấm hút mồ hôi siêu tốc:</b> Cấu trúc sợi rỗng giúp khuếch tán độ ẩm ra ngoài bề mặt vải, khô nhanh gấp 3 lần cotton truyền thống.</li>
+            <li><b>Co giãn 4 chiều linh hoạt:</b> Đảm bảo người mặc luôn thoải mái khi vận động mạnh, tập luyện gym hay dạo phố.</li>
+            <li><b>Kháng khuẩn và chống mùi:</b> Xử lý công nghệ ion bạc giúp khử mùi hôi cơ thể hiệu quả trong điều kiện thời tiết oi bức.</li>
+        </ul>
 
-            <p>Blue Chic chuyên các sản phẩm balo laptop, vali kéo, cặp đựng laptop chính hãng. </p>
-    </div>
-    <div class="binhluan">
-        <iframe src="" frameborder="0"></iframe>
+        <div style="text-align: center; margin: 25px 0;">
+            <img src="../view/images/MC.jpg" alt="Áo Manchester City" style="max-width: 480px; width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+            <p style="font-size: 13px; color: #7f8c8d; font-style: italic; margin-top: 8px;">Gam màu xanh ngọc thời thượng của Manchester City cực kỳ phù hợp khi phối cùng quần short hoặc jean</p>
+        </div>
+
+        <h3 style="color: #2c3e50; font-size: 20px; margin: 25px 0 10px 0;">2. Hướng dẫn chọn Size áo thể thao chuẩn form người Việt</h3>
+        <p style="line-height: 1.8; font-size: 15px; color: #444;">
+            Để mặc đẹp nhất, khách hàng nên tham khảo bảng quy đổi kích thước chuẩn dưới đây:
+        </p>
+
+        <div style="overflow-x: auto; margin: 20px 0;">
+            <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 14px;">
+                <thead>
+                    <tr style="background: #2c3e50; color: #fff;">
+                        <th style="padding: 10px;">Size</th>
+                        <th style="padding: 10px;">Chiều cao (cm)</th>
+                        <th style="padding: 10px;">Cân nặng (kg)</th>
+                        <th style="padding: 10px;">Phong cách khuyên dùng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 10px; font-weight: 700;">S</td>
+                        <td>155 - 164</td>
+                        <td>48 - 56</td>
+                        <td>Ôm vừa vặn cơ thể (Slim-fit)</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eee; background: #f9f9f9;">
+                        <td style="padding: 10px; font-weight: 700;">M</td>
+                        <td>165 - 172</td>
+                        <td>57 - 65</td>
+                        <td>Vừa vặn thoải mái (Regular-fit)</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 10px; font-weight: 700;">L</td>
+                        <td>173 - 178</td>
+                        <td>66 - 74</td>
+                        <td>Thoải mái / Phong cách Blokecore</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eee; background: #f9f9f9;">
+                        <td style="padding: 10px; font-weight: 700;">XL</td>
+                        <td>179 - 185</td>
+                        <td>75 - 83</td>
+                        <td>Dáng rộng cá tính (Oversize)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; font-weight: 700;">XXL</td>
+                        <td>182 - 190+</td>
+                        <td>84 - 95+</td>
+                        <td>Dáng rộng tối đa (Big size)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 style="color: #2c3e50; font-size: 20px; margin: 25px 0 10px 0;">3. Gợi ý 3 công thức phối đồ (Mix & Match) cực chất</h3>
+        <ol style="line-height: 1.8; font-size: 15px; color: #444; margin-left: 20px; margin-bottom: 25px;">
+            <li><b>Áo đấu CLB + Quần Jean ống rộng (Baggy) + Sneaker retro:</b> Công thức kinh điển mang lại vẻ ngoài năng động, phóng khoáng đậm chất Gen Z.</li>
+            <li><b>Áo đấu + Quần Cargo (túi hộp) + Mũ lưỡi trai:</b> Set đồ cá tính dành cho những buổi dạo phố cuối tuần, xem bóng đá cùng bạn bè.</li>
+            <li><b>Áo đấu sơ vin + Quần Short nỉ thể thao:</b> Hoàn hảo cho các buổi tập luyện, chạy bộ hoặc thi đấu trên sân cỏ nhân tạo.</li>
+        </ol>
+
+        <div style="background: #eef2f7; border-left: 4px solid #e74c3c; padding: 15px 20px; border-radius: 4px; margin: 30px 0;">
+            <p style="margin: 0; font-size: 14px; color: #333;">
+                <b>💡 Khám phá ngay:</b> Hơn 100+ mẫu áo đấu mùa giải mới nhất đã có mặt trên kệ hàng của chúng tôi với chính sách bảo hành in ấn và đổi size miễn phí!
+            </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="../controller/index.php" style="display: inline-block; padding: 12px 30px; background: #e74c3c; color: #fff; text-decoration: none; border-radius: 25px; font-weight: 600;">
+                <i class="fa fa-shopping-bag"></i> Mua Ngay Áo Đấu Mùa Mới
+            </a>
+        </div>
     </div>
 </div>
