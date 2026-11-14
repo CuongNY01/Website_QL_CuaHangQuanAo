@@ -27,7 +27,7 @@ $admin_name = $_SESSION['userAd'] ?? 'Admin';
     <!-- TOP NAVIGATION BAR -->
     <header class="admin-navbar">
         <a href="../controller/indexAdmin.php?act=userAd" class="admin-navbar-brand">
-            <img src="../view/images/logo3.png" alt="Logo Fashion Store">
+            <img src="../view/images/logo_fashion.png" alt="Logo Fashion Store">
             <div class="admin-brand-info">
                 <h1>FASHION STORE</h1>
                 <span>Quản trị hệ thống</span>

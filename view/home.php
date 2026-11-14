@@ -63,7 +63,7 @@
 </style>
 
 <div class="banner">
-     <img src="../view/images/banner4.png" alt="Bộ Sưu Tập Thời Trang Đa Dạng" style="width: 100%; max-height: 400px; object-fit: cover;">
+     <img src="../view/images/banner_home_fashion.jpg" alt="Bộ Sưu Tập Thời Trang Đa Dạng 2026" style="width: 100%; max-height: 400px; object-fit: cover; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
 </div>
 
 <!-- Thanh điều hướng danh mục nhanh -->
@@ -103,7 +103,7 @@
                             <form method="POST" action="../controller/index.php?act=cart">
                                 <nav style="background: #fff; margin: 0.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 12px;">
                                     <a href="../controller/index.php?act=chitiet&idsp=' . $row['id'] . '">
-                                        <img src="../view/images/' . htmlspecialchars($row['hinh']) . '" alt="" style="width: 100%; height: 230px; object-fit: contain;">
+                                        <img src="../view/images/' . htmlspecialchars($row['hinh']) . '" alt="" style="width: 100%; height: 230px; object-fit: cover; border-radius: 8px;">
                                     </a>
                                     <div class="content" style="margin-top: 10px;">   
                                         <h3 class="tensp" style="font-size: 15px; font-weight: 600; min-height: 42px; margin: 8px 0;">
@@ -146,7 +146,7 @@
                             <form method="POST" action="../controller/index.php?act=cart">
                                 <nav style="background: #fff; margin: 0.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 12px;">
                                     <a href="../controller/index.php?act=chitiet&idsp=' . $row['id'] . '">
-                                        <img src="../view/images/' . htmlspecialchars($row['hinh']) . '" alt="" style="width: 100%; height: 230px; object-fit: contain;">
+                                        <img src="../view/images/' . htmlspecialchars($row['hinh']) . '" alt="" style="width: 100%; height: 230px; object-fit: cover; border-radius: 8px;">
                                     </a>
                                     <div class="content" style="margin-top: 10px;">   
                                         <h3 class="tensp" style="font-size: 15px; font-weight: 600; min-height: 42px; margin: 8px 0;">
@@ -189,7 +189,7 @@
                             <form method="POST" action="../controller/index.php?act=cart">
                                 <nav style="background: #fff; margin: 0.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 12px;">
                                     <a href="../controller/index.php?act=chitiet&idsp=' . $row['id'] . '">
-                                        <img src="../view/images/' . htmlspecialchars($row['hinh']) . '" alt="" style="width: 100%; height: 230px; object-fit: contain;">
+                                        <img src="../view/images/' . htmlspecialchars($row['hinh']) . '" alt="" style="width: 100%; height: 230px; object-fit: cover; border-radius: 8px;">
                                     </a>
                                     <div class="content" style="margin-top: 10px;">   
                                         <h3 class="tensp" style="font-size: 15px; font-weight: 600; min-height: 42px; margin: 8px 0;">
@@ -232,7 +232,7 @@
                             <form method="POST" action="../controller/index.php?act=cart">
                                 <nav style="background: #fff; margin: 0.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 12px;">
                                     <a href="../controller/index.php?act=chitiet&idsp=' . $row['id'] . '">
-                                        <img src="../view/images/' . htmlspecialchars($row['hinh']) . '" alt="" style="width: 100%; height: 230px; object-fit: contain;">
+                                        <img src="../view/images/' . htmlspecialchars($row['hinh']) . '" alt="" style="width: 100%; height: 230px; object-fit: cover; border-radius: 8px;">
                                     </a>
                                     <div class="content" style="margin-top: 10px;">   
                                         <h3 class="tensp" style="font-size: 15px; font-weight: 600; min-height: 42px; margin: 8px 0;">
