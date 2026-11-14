@@ -1,53 +1,83 @@
-<link rel="stylesheet" href="../view/css/ad_seach.css">
 <?php
 $keyword = trim($_POST['filter'] ?? ($_GET['filter'] ?? ''));
+$query = ($keyword != "") ? sanpham_seach($keyword) : [];
 ?>
-<div class="main">
-    <main>
-        <h2 style="text-align: center; margin-bottom: 20px;">Tìm Kiếm Sản Phẩm Trong Kho</h2>
-        <form action="../controller/indexAdmin.php?act=layout_tim" id="tim" method="POST" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 25px;">
-            <input type="text" name="filter" placeholder="Nhập tên sản phẩm áo, quần, váy hoặc danh mục..." value="<?php echo htmlspecialchars($keyword); ?>" style="width: 380px; height: 38px; padding: 5px 12px; border: 1px solid #ccc; border-radius: 4px;">
-            <input id="timkiem" type="submit" name="timkiem" value="Tìm kiếm" style="padding: 0 20px; height: 38px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">
-        </form>
 
-        <?php
-        if ($keyword != "") {
-            $query = sanpham_seach($keyword);
+<div class="admin-card">
+    <div class="admin-card-header">
+        <div class="admin-card-title-group">
+            <h2><i class='bx bx-search' style="color: #3b82f6;"></i> Kết Quả Tìm Kiếm Sản Phẩm Trong Kho</h2>
+            <p>Từ khóa tìm kiếm: "<b><?= htmlspecialchars($keyword) ?></b>" (Tìm thấy: <?= count($query) ?> sản phẩm)</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <form action="../controller/indexAdmin.php?act=layout_tim" method="POST" class="admin-search-box">
+                <i class='bx bx-search' style="color: #94a3b8; font-size: 18px;"></i>
+                <input type="text" name="filter" placeholder="Tìm theo tên sản phẩm..." value="<?= htmlspecialchars($keyword) ?>" required>
+                <button type="submit" name="timkiem">Tìm</button>
+            </form>
+            <a href="../controller/indexAdmin.php?act=sanpham" class="btn-action btn-secondary">
+                <i class='bx bx-arrow-back'></i> Tất Cả Sản Phẩm
+            </a>
+        </div>
+    </div>
 
-            if (!empty($query)) {
-                echo "<h3 style='margin-bottom: 15px; color: #2c3e50;'>Kết quả tìm kiếm cho: '<span style=\"color:#e74c3c;\">" . htmlspecialchars($keyword) . "</span>' (" . count($query) . " sản phẩm)</h3>";
-                echo "<table>";
-                echo '<tr>
-                        <th style="width: 50px;">Mã</th>
-                        <th style="width: 80px;">Hình ảnh</th>
-                        <th colspan="3">Tên sản phẩm</th>
-                        <th>Đơn giá</th>
-                        <th>Danh mục</th>
-                        <th colspan="2" style="width: 140px;">Tính năng</th>
-                      </tr>';
-                foreach ($query as $row) {
-                    $tendanhmuc = !empty($row['tendanhmuc']) ? $row['tendanhmuc'] : ('ID: ' . $row['iddanhmuc']);
-                    echo '
-                    <tr>
-                        <td>' . $row['id'] . '</td>
-                        <td><img src="../view/images/' . htmlspecialchars($row['hinh']) . '" alt="" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"></td>
-                        <td colspan="3" class="tensp" style="text-align: left; font-weight: 500;">' . htmlspecialchars($row['tensp']) . '</td>
-                        <td style="color: #e74c3c; font-weight: 600;">' . number_format($row['gia'], 0, ',', '.') . ' đ</td>
-                        <td>' . htmlspecialchars($tendanhmuc) . '</td>
-                        <td class="ac"><a href="../controller/indexAdmin.php?act=suasanpham&id=' . $row['id'] . '"><i class="bx bx-edit"></i> Sửa</a></td>
-                        <td class="ad"><a onclick="return Del(\'' . htmlspecialchars($row['tensp']) . '\')" href="../controller/indexAdmin.php?act=sanpham&id=' . $row['id'] . '"><i class="bx bx-message-square-minus"></i> Xóa</a></td>
-                    </tr>
-                    ';
-                }
-                echo "</table>";
-            } else {
-                echo "<div style='text-align: center; padding: 40px; background: #fff; border-radius: 8px;'>";
-                echo "<i class='bx bx-search' style='font-size: 48px; color: #ccc;'></i>";
-                echo "<h3 style='color: #7f8c8d; margin-top: 10px;'>Rất tiếc, không tìm thấy sản phẩm nào khớp với: '<span style=\"color:#e74c3c;\">" . htmlspecialchars($keyword) . "</span>'</h3>";
-                echo "<p style='color: #95a5a6;'>Vui lòng thử lại với từ khóa khác như: Real, Barca, Arsenal, Ngoại Hạng Anh...</p>";
-                echo "</div>";
-            }
-        }
-        ?>
-    </main>
+    <div class="admin-card-body" style="padding: 0;">
+        <?php if (!empty($query)): ?>
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 70px; text-align: center;">Mã</th>
+                            <th style="width: 80px; text-align: center;">Ảnh</th>
+                            <th>Tên Sản Phẩm Thời Trang</th>
+                            <th style="width: 150px; text-align: right;">Đơn Giá</th>
+                            <th style="width: 200px;">Danh Mục</th>
+                            <th style="width: 170px; text-align: center;">Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($query as $row): 
+                            $tendanhmuc = !empty($row['tendanhmuc']) ? $row['tendanhmuc'] : ('ID: ' . $row['iddanhmuc']);
+                        ?>
+                            <tr>
+                                <td style="text-align: center;">
+                                    <span class="badge-pill badge-neutral">#<?= $row['id'] ?></span>
+                                </td>
+                                <td style="text-align: center;">
+                                    <img src="../view/images/<?= htmlspecialchars($row['hinh']) ?>" alt="" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                </td>
+                                <td>
+                                    <strong style="color: #0f172a;"><?= htmlspecialchars($row['tensp']) ?></strong>
+                                </td>
+                                <td style="text-align: right;">
+                                    <span style="color: #ef4444; font-weight: 700;"><?= number_format($row['gia'], 0, ',', '.') ?> đ</span>
+                                </td>
+                                <td>
+                                    <span class="badge-pill badge-info">
+                                        <i class='bx bx-tag-alt'></i> <?= htmlspecialchars($tendanhmuc) ?>
+                                    </span>
+                                </td>
+                                <td style="text-align: center;">
+                                    <div style="display: inline-flex; gap: 8px; justify-content: center;">
+                                        <a href="../controller/indexAdmin.php?act=suasanpham&id=<?= $row['id'] ?>" class="btn-action btn-edit" title="Sửa">
+                                            <i class='bx bx-edit-alt'></i> Sửa
+                                        </a>
+                                        <a onclick="return Del('<?= htmlspecialchars(addslashes($row['tensp'])) ?>')" href="../controller/indexAdmin.php?act=sanpham&id=<?= $row['id'] ?>" class="btn-action btn-delete" title="Xóa">
+                                            <i class='bx bx-trash'></i> Xóa
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php else: ?>
+            <div style="text-align: center; padding: 60px 20px; color: #64748b;">
+                <i class='bx bx-search-alt' style="font-size: 50px; color: #cbd5e1; display: block; margin-bottom: 12px;"></i>
+                <h3 style="font-size: 17px; color: #334155; margin-bottom: 6px;">Không tìm thấy sản phẩm nào khớp với từ khóa "<?= htmlspecialchars($keyword) ?>"</h3>
+                <p style="font-size: 13px; color: #94a3b8;">Vui lòng thử lại với tên khác như: Sơ mi, Váy, Jean, Bomber, Real Madrid...</p>
+            </div>
+        <?php endif; ?>
+    </div>
 </div>

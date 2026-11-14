@@ -1,9 +1,3 @@
-<div class="main">
-    <main>
-        <?php
-        include "seach.php";
-        ?>
-
-    </main>
-
-</div>
+<?php
+include "seach.php";
+?>

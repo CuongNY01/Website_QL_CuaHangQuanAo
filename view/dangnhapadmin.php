@@ -60,6 +60,10 @@ if (isset($_SESSION['idAdmin'])) {
             <i class="fa fa-sign-in"></i> ĐĂNG NHẬP ADMIN
         </button>
 
+        <p style="text-align: center; font-size: 12px; color: #888; margin-top: 12px; margin-bottom: 0;">
+            Gợi ý đăng nhập mặc định: <b>admin</b> | Mật khẩu: <b>123456</b>
+        </p>
+
         <div style="text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
             <a href="../controller/index.php" style="color: #007bff; font-size: 13px; text-decoration: none;">
                 <i class="fa fa-arrow-left"></i> Quay lại trang chủ bán hàng

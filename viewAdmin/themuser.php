@@ -1,59 +1,67 @@
-<div class="main">
-    <main>
-        <?php
-        if (isset($_POST['them'])) {
-            $username = trim($_POST['username'] ?? '');
-            $password = trim($_POST['password'] ?? '');
-            $name = trim($_POST['name'] ?? '');
-            $email = trim($_POST['email'] ?? '');
-            $avata = (!empty($_FILES['hinh']['name'])) ? basename($_FILES['hinh']['name']) : 'iconUser.png';
+<?php
+if (isset($_POST['them'])) {
+    $username = trim($_POST['username'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+    $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $avata = (!empty($_FILES['hinh']['name'])) ? basename($_FILES['hinh']['name']) : 'iconUser.png';
 
-            if ($username != "" && $password != "" && $name != "" && $email != "") {
-                if (!empty($_FILES['hinh']['name'])) {
-                    $target = "../view/images/";
-                    $target_file = $target . $avata;
-                    move_uploaded_file($_FILES['hinh']['tmp_name'], $target_file);
-                }
-                add_user($username, $password, $name, $email, $avata);
-                echo "<script>alert('Thêm User thành công'); window.location.href='../controller/indexAdmin.php?act=admin';</script>";
-                exit;
-            } else {
-                echo "<script>alert('Vui lòng điền đầy đủ các thông tin bắt buộc');</script>";
-            }
+    if ($username != "" && $password != "" && $name != "" && $email != "") {
+        if (!empty($_FILES['hinh']['name'])) {
+            $target = "../view/images/";
+            $target_file = $target . $avata;
+            move_uploaded_file($_FILES['hinh']['tmp_name'], $target_file);
         }
-        ?>
-        <form action="" method="POST" class="sua" enctype="multipart/form-data" style="width:450px; height:auto; padding: 25px; margin: 30px auto; text-align: left; background: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.08);">
-            <h2 style="text-align: center; margin-bottom: 20px;">Thêm Mới Khách Hàng</h2>
+        add_user($username, $password, $name, $email, $avata);
+        echo "<script>alert('Thêm Thành viên mới thành công!'); window.location.href='../controller/indexAdmin.php?act=admin';</script>";
+        exit;
+    } else {
+        echo "<script>alert('Vui lòng điền đầy đủ các thông tin bắt buộc!');</script>";
+    }
+}
+?>
 
-            <div style="margin-bottom: 15px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Tên đăng nhập:</label>
-                <input type="text" placeholder="Username" name="username" id="username" required style="width: 100%; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px;">
-            </div>
+<div class="admin-form-container">
+    <div style="margin-bottom: 25px; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px;">
+        <h2 style="font-size: 19px; font-weight: 700; color: #1e293b; margin: 0; display: flex; align-items: center; gap: 8px;">
+            <i class='bx bx-user-plus' style="color: #a855f7;"></i> Thêm Mới Tài Khoản Khách Hàng
+        </h2>
+        <p style="font-size: 13px; color: #64748b; margin-top: 4px;">Cấp tài khoản khách hàng mới để đăng nhập mua sắm</p>
+    </div>
 
-            <div style="margin-bottom: 15px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Mật khẩu:</label>
-                <input type="password" placeholder="Password" name="password" id="password" required style="width: 100%; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px;">
-            </div>
+    <form action="" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Tên Đăng Nhập (*):</label>
+            <input type="text" class="form-control-custom" placeholder="Ví dụ: nguyenvana" name="username" id="username" required autofocus>
+        </div>
 
-            <div style="margin-bottom: 15px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Họ và tên:</label>
-                <input type="text" placeholder="Họ và tên hiển thị" name="name" id="name" required style="width: 100%; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px;">
-            </div>
+        <div class="form-group">
+            <label>Mật Khẩu (*):</label>
+            <input type="password" class="form-control-custom" placeholder="Nhập mật khẩu cho tài khoản" name="password" id="password" required>
+        </div>
 
-            <div style="margin-bottom: 15px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Email:</label>
-                <input type="email" placeholder="example@email.com" name="email" id="email" required style="width: 100%; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px;">
-            </div>
+        <div class="form-group">
+            <label>Họ và Tên (*):</label>
+            <input type="text" class="form-control-custom" placeholder="Ví dụ: Nguyễn Văn A" name="name" id="name" required>
+        </div>
 
-            <div style="margin-bottom: 20px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Ảnh đại diện (tùy chọn):</label>
-                <input type="file" id="hinh" name="hinh" accept="image/*" style="border: none;">
-            </div>
+        <div class="form-group">
+            <label>Email (*):</label>
+            <input type="email" class="form-control-custom" placeholder="example@gmail.com" name="email" id="email" required>
+        </div>
 
-            <div style="display: flex; justify-content: space-between; gap: 10px; margin-top: 20px;">
-                <input type="submit" value="Lưu tài khoản" name="them" style="flex: 1; height: 38px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">
-                <a href="../controller/indexAdmin.php?act=admin" style="flex: 1; height: 38px; line-height: 38px; text-align: center; background: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-weight: 600;">Hủy bỏ</a>
-            </div>
-        </form>
-    </main>
+        <div class="form-group">
+            <label>Ảnh Đại Diện:</label>
+            <input type="file" class="form-control-custom" id="hinh" name="hinh" accept="image/*" style="padding-top: 6px;">
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" name="them" class="btn-action btn-add" style="flex: 1; justify-content: center; height: 42px;">
+                <i class='bx bx-save'></i> Lưu Tài Khoản
+            </button>
+            <a href="../controller/indexAdmin.php?act=admin" class="btn-action btn-secondary" style="flex: 1; justify-content: center; height: 42px;">
+                <i class='bx bx-arrow-back'></i> Hủy Bỏ
+            </a>
+        </div>
+    </form>
 </div>

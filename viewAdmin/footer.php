@@ -1,6 +1,7 @@
-    </div>
-    <footer style="text-align: center; padding: 25px 0; color: #7f8c8d; font-size: 13px; border-top: 1px solid #eee; margin-top: 40px;">
-        <p>© 2026 Hệ thống Quản trị Website Bán Quần Áo - Chuyên đề tốt nghiệp 1 - Dương Bá Công (Đại học Công nghệ Đông Á)</p>
+    </main>
+    <footer class="admin-footer">
+        <p>© 2026 <b>Hệ thống Quản trị Bán Hàng Thời Trang</b> | Đề tài Chuyên đề tốt nghiệp 1: <i>Website Quản Lý Bán Quần Áo</i></p>
+        <p style="margin-top: 4px; font-size: 12px; color: #94a3b8;">Sinh viên thực hiện: <b>Dương Bá Công</b> - Lớp CNTT | Giảng viên hướng dẫn: <b>Hà Trọng Thắng</b> | ĐH Công Nghệ Đông Á</p>
     </footer>
 </body>
 </html>
@@ -15,6 +16,6 @@ function Del(name) {
 }
 function Deluser(username) {
     if (!username) username = "tài khoản này";
-    return confirm("Bạn có chắc chắn muốn xóa " + username + "?");
+    return confirm("Bạn có chắc chắn muốn xóa tài khoản: " + username + "?");
 }
 </script>

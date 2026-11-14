@@ -1,64 +1,73 @@
-<div class="main">
-    <main>
-        <?php
-        $list_dm = danhmuc_showAll();
+<?php
+$list_dm = danhmuc_showAll();
 
-        if (isset($_POST['them'])) {
-            $tensp = trim($_POST['tensp'] ?? '');
-            $gia = trim($_POST['gia'] ?? '');
-            $danhmuc = trim($_POST['danhmuc'] ?? '');
-            $avata = (!empty($_FILES['hinh']['name'])) ? basename($_FILES['hinh']['name']) : '';
+if (isset($_POST['them'])) {
+    $tensp = trim($_POST['tensp'] ?? '');
+    $gia = trim($_POST['gia'] ?? '');
+    $danhmuc = trim($_POST['danhmuc'] ?? '');
+    $avata = (!empty($_FILES['hinh']['name'])) ? basename($_FILES['hinh']['name']) : '';
 
-            if ($tensp != "" && $gia != "" && $danhmuc != "") {
-                if ($avata != "") {
-                    $target = "../view/images/";
-                    $target_file = $target . $avata;
-                    move_uploaded_file($_FILES['hinh']['tmp_name'], $target_file);
-                } else {
-                    $avata = "logo.jpg";
-                }
-                sanpham_insert($tensp, $avata, $gia, $danhmuc);
-                echo "<script>alert('Thêm sản phẩm thành công'); window.location.href='../controller/indexAdmin.php?act=sanpham';</script>";
-                exit;
-            } else {
-                echo "<script>alert('Vui lòng nhập đầy đủ các trường dữ liệu bắt buộc!');</script>";
-            }
+    if ($tensp != "" && $gia != "" && $danhmuc != "") {
+        if ($avata != "") {
+            $target = "../view/images/";
+            $target_file = $target . $avata;
+            move_uploaded_file($_FILES['hinh']['tmp_name'], $target_file);
+        } else {
+            $avata = "ao_so_mi_nam.jpg";
         }
-        ?>
-        <form action="" method="POST" class="sua" enctype="multipart/form-data" style="width:480px; height:auto; padding: 25px; margin: 30px auto; text-align: left; background: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.08);">
-            <h2 style="text-align: center; margin-bottom: 20px;">Thêm Mới Sản Phẩm</h2>
+        sanpham_insert($tensp, $avata, $gia, $danhmuc);
+        echo "<script>alert('Thêm sản phẩm mới thành công!'); window.location.href='../controller/indexAdmin.php?act=sanpham';</script>";
+        exit;
+    } else {
+        echo "<script>alert('Vui lòng nhập đầy đủ các trường dữ liệu bắt buộc!');</script>";
+    }
+}
+?>
 
-            <div style="margin-bottom: 15px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Tên sản phẩm thời trang (Áo/Quần/Váy):</label>
-                <input type="text" id="tensp" placeholder="Ví dụ: Áo Sơ Mi Oxford, Váy Xòe Công Sở, Quần Jean..." name="tensp" required style="width: 100%; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px;">
-            </div>
+<div class="admin-form-container">
+    <div style="margin-bottom: 25px; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px;">
+        <h2 style="font-size: 19px; font-weight: 700; color: #1e293b; margin: 0; display: flex; align-items: center; gap: 8px;">
+            <i class='bx bx-plus-circle' style="color: #10b981;"></i> Thêm Mới Sản Phẩm Thời Trang
+        </h2>
+        <p style="font-size: 13px; color: #64748b; margin-top: 4px;">Điền thông tin trang phục, hình ảnh và phân loại danh mục</p>
+    </div>
 
-            <div style="margin-bottom: 15px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Đơn giá bán (VNĐ):</label>
-                <input type="number" id="gia" placeholder="Ví dụ: 180000" name="gia" required style="width: 100%; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px;">
-            </div>
+    <form action="" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Tên Sản Phẩm Thời Trang (*):</label>
+            <input type="text" class="form-control-custom" id="tensp" placeholder="Ví dụ: Áo Sơ Mi Oxford Slimfit, Đầm Maxi Hoa Nhí, Quần Jean Ống Suông..." name="tensp" required autofocus>
+        </div>
 
-            <div style="margin-bottom: 15px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Danh mục giải đấu / thời trang:</label>
-                <select name="danhmuc" required style="width: 100%; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; background: #fff;">
-                    <option value="">-- Chọn danh mục --</option>
-                    <?php
-                    foreach ($list_dm as $dm) {
-                        echo '<option value="' . $dm['iddanhmuc'] . '">' . htmlspecialchars($dm['tendanhmuc']) . '</option>';
-                    }
-                    ?>
-                </select>
-            </div>
+        <div class="form-group">
+            <label>Đơn Giá Bán (VNĐ) (*):</label>
+            <input type="number" class="form-control-custom" id="gia" placeholder="Ví dụ: 250000" name="gia" required min="1000">
+        </div>
 
-            <div style="margin-bottom: 20px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Hình ảnh đại diện:</label>
-                <input type="file" id="hinh" name="hinh" accept="image/*" style="border: none; padding-top: 5px;">
-            </div>
+        <div class="form-group">
+            <label>Danh Mục Phân Loại (*):</label>
+            <select name="danhmuc" class="form-control-custom" required>
+                <option value="">-- Chọn danh mục thời trang --</option>
+                <?php
+                foreach ($list_dm as $dm) {
+                    echo '<option value="' . $dm['iddanhmuc'] . '">' . htmlspecialchars($dm['tendanhmuc']) . '</option>';
+                }
+                ?>
+            </select>
+        </div>
 
-            <div style="display: flex; justify-content: space-between; gap: 10px; margin-top: 20px;">
-                <input type="submit" value="Lưu lại" name="them" style="flex: 1; height: 38px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">
-                <a href="../controller/indexAdmin.php?act=sanpham" style="flex: 1; height: 38px; line-height: 38px; text-align: center; background: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-weight: 600;">Hủy bỏ</a>
-            </div>
-        </form>
-    </main>
+        <div class="form-group">
+            <label>Hình Ảnh Minh Họa (*):</label>
+            <input type="file" class="form-control-custom" id="hinh" name="hinh" accept="image/*" style="padding-top: 6px;">
+            <small style="color: #94a3b8; font-size: 12px; display: block; margin-top: 4px;">Định dạng hỗ trợ: JPG, PNG, WEBP</small>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" name="them" class="btn-action btn-add" style="flex: 1; justify-content: center; height: 42px;">
+                <i class='bx bx-check-circle'></i> Lưu Sản Phẩm
+            </button>
+            <a href="../controller/indexAdmin.php?act=sanpham" class="btn-action btn-secondary" style="flex: 1; justify-content: center; height: 42px;">
+                <i class='bx bx-arrow-back'></i> Hủy Bỏ
+            </a>
+        </div>
+    </form>
 </div>

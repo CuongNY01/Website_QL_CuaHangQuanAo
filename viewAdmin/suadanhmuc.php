@@ -1,40 +1,50 @@
-<div class="main">
-    <main>
-        <?php
-        $id = $_GET['id'] ?? 0;
-        $danhmuc = danhmuc_showId($id);
-        if (!$danhmuc) {
-            echo "<script>alert('Không tìm thấy danh mục'); window.location.href='../controller/indexAdmin.php?act=danhmuc';</script>";
-            exit;
-        }
-        $tendanhmuc = $danhmuc['tendanhmuc'];
+<?php
+$id = $_GET['id'] ?? 0;
+$danhmuc = danhmuc_showId($id);
+if (!$danhmuc) {
+    echo "<script>alert('Không tìm thấy danh mục!'); window.location.href='../controller/indexAdmin.php?act=danhmuc';</script>";
+    exit;
+}
+$tendanhmuc = $danhmuc['tendanhmuc'];
 
-        if (isset($_POST['sua'])) {
-            $tendanhmuc_new = trim($_POST['name'] ?? '');
-            if ($tendanhmuc_new != '') {
-                danhmuc_update($tendanhmuc_new, $id);
-                echo "<script>alert('Cập nhật danh mục thành công'); window.location.href='../controller/indexAdmin.php?act=danhmuc';</script>";
-                exit;
-            } else {
-                echo "<script>alert('Vui lòng nhập tên danh mục');</script>";
-            }
-        }
-        ?>
+if (isset($_POST['sua'])) {
+    $tendanhmuc_new = trim($_POST['name'] ?? '');
+    if ($tendanhmuc_new != '') {
+        danhmuc_update($tendanhmuc_new, $id);
+        echo "<script>alert('Cập nhật danh mục thành công!'); window.location.href='../controller/indexAdmin.php?act=danhmuc';</script>";
+        exit;
+    } else {
+        echo "<script>alert('Vui lòng nhập tên danh mục!');</script>";
+    }
+}
+?>
 
-        <form action="" method="POST" class="sua" style="width:420px; height:auto; padding: 25px; margin: 30px auto; text-align: center; background: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.08);">
-            <h2>Chỉnh Sửa Danh Mục</h2><br>
-            <div style="text-align: left; margin-bottom: 15px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Mã danh mục:</label>
-                <input type="text" value="<?php echo $id; ?>" disabled style="width: 100%; height: 38px; padding: 5px 10px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 4px;">
-            </div>
-            <div style="text-align: left; margin-bottom: 20px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Tên danh mục:</label>
-                <input type="text" placeholder="Nhập tên danh mục thời trang" name="name" required value="<?php echo htmlspecialchars($tendanhmuc); ?>" style="width: 100%; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px;">
-            </div>
-            <div style="display: flex; justify-content: space-between; gap: 10px;">
-                <input type="submit" value="Cập nhật" name="sua" style="flex: 1; height: 38px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">
-                <a href="../controller/indexAdmin.php?act=danhmuc" style="flex: 1; height: 38px; line-height: 38px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-weight: 600;">Quay lại</a>
-            </div>
-        </form>
-    </main>
+<div class="admin-form-container">
+    <div style="margin-bottom: 25px; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px;">
+        <h2 style="font-size: 19px; font-weight: 700; color: #1e293b; margin: 0; display: flex; align-items: center; gap: 8px;">
+            <i class='bx bx-edit' style="color: #3b82f6;"></i> Chỉnh Sửa Danh Mục Thời Trang
+        </h2>
+        <p style="font-size: 13px; color: #64748b; margin-top: 4px;">Cập nhật lại tên nhóm phân loại trên hệ thống</p>
+    </div>
+
+    <form action="" method="POST">
+        <div class="form-group">
+            <label>Mã ID Danh Mục:</label>
+            <input type="text" class="form-control-custom" value="#<?= $id ?>" disabled>
+        </div>
+
+        <div class="form-group">
+            <label>Tên Danh Mục Thời Trang (*):</label>
+            <input type="text" class="form-control-custom" placeholder="Nhập tên danh mục thời trang mới" name="name" required value="<?= htmlspecialchars($tendanhmuc) ?>">
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" name="sua" class="btn-action btn-primary" style="flex: 1; justify-content: center; height: 42px;">
+                <i class='bx bx-save'></i> Cập Nhật
+            </button>
+            <a href="../controller/indexAdmin.php?act=danhmuc" class="btn-action btn-secondary" style="flex: 1; justify-content: center; height: 42px;">
+                <i class='bx bx-arrow-back'></i> Quay Lại
+            </a>
+        </div>
+    </form>
 </div>

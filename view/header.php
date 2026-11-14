@@ -6,7 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../view/images/logo.jpg">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../view/fontawesome-free-6.1.1-web/css/all.min.css">
@@ -16,15 +18,30 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"
         integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Website Quản Lý Bán Quần Áo - Football Store 24/7</title>
+    <title>Fashion Store 24/7 - Cửa Hàng Thời Trang Nam Nữ Cao Cấp</title>
     <style>
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            background: #ffffff;
+            transition: all 0.3s ease;
+        }
         .header-search-form {
             display: inline-flex;
             align-items: center;
-            background: #f1f2f6;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
             border-radius: 20px;
-            padding: 2px 10px;
+            padding: 3px 12px;
             margin: 0 10px;
+            transition: all 0.2s ease;
+        }
+        .header-search-form:focus-within {
+            background: #fff;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
         }
         .header-search-form input {
             border: none;
@@ -32,21 +49,24 @@
             padding: 6px 10px;
             font-size: 13px;
             outline: none;
-            width: 170px;
-            color: #333;
+            width: 180px;
+            color: #1e293b;
+            font-family: inherit;
         }
         .header-search-form button {
             border: none;
             background: transparent;
             cursor: pointer;
-            color: #555;
+            color: #64748b;
             padding: 4px;
+            display: flex;
+            align-items: center;
         }
         .header-search-form button:hover {
-            color: #000;
+            color: #3b82f6;
         }
         .cart-badge {
-            background: #e74c3c;
+            background: #ef4444;
             color: #fff;
             font-size: 11px;
             font-weight: 700;
@@ -55,14 +75,25 @@
             position: relative;
             top: -10px;
             left: -5px;
+            box-shadow: 0 2px 5px rgba(239, 68, 68, 0.4);
         }
         .user-greeting {
             font-size: 13px;
-            color: #333;
-            font-weight: 500;
+            color: #1e293b;
+            font-weight: 600;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            padding: 4px 10px;
+            background: #f8fafc;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        .responsive-sub-menu li a {
+            transition: color 0.2s ease;
+        }
+        .responsive-sub-menu li a:hover {
+            color: #3b82f6;
         }
     </style>
 </head>
@@ -73,7 +104,7 @@
 
             <div class="logo">
                 <a href="../controller/index.php">
-                    <img src="../view/images/logo3.png" style="width: 60px; height: 60px; margin-left: 2rem; object-fit: contain;" alt="Football Store 24/7">
+                    <img src="../view/images/logo3.png" style="width: 58px; height: 58px; margin-left: 2rem; object-fit: contain;" alt="Fashion Store 24/7">
                 </a>
             </div>
 
@@ -107,9 +138,9 @@
                         <li>
                             <a href="../controller/index.php?act=login" class="user-greeting" title="Quản lý tài khoản">
                                 <?php if (!empty($_SESSION['avata'])): ?>
-                                    <img src="../view/images/<?= htmlspecialchars($_SESSION['avata']) ?>" style="width: 26px; height: 26px; border-radius: 50%; object-fit: cover;" alt="">
+                                    <img src="../view/images/<?= htmlspecialchars($_SESSION['avata']) ?>" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;" alt="">
                                 <?php else: ?>
-                                    <i class='bx bx-user-check' style="font-size: 18px; color: #27ae60;"></i>
+                                    <i class='bx bx-user-check' style="font-size: 18px; color: #10b981;"></i>
                                 <?php endif; ?>
                                 <span><?= htmlspecialchars($_SESSION['name']) ?></span>
                             </a>
