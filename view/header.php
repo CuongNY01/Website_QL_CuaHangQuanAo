@@ -97,7 +97,7 @@
                     <!-- Header Search Bar -->
                     <li>
                         <form action="../controller/index.php?act=seach" method="POST" class="header-search-form">
-                            <input type="text" name="filter" placeholder="Tìm áo đấu, CLB..." required>
+                            <input type="text" name="filter" placeholder="Tìm áo, quần, váy, đầm..." required>
                             <button type="submit" title="Tìm kiếm"><i class="fa fa-search"></i></button>
                         </form>
                     </li>

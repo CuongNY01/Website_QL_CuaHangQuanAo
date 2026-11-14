@@ -24,7 +24,7 @@ if (isset($_GET['iddanhmuc'])) {
             </tr>
             <tr>
                 <th style="width: 80px;">Mã ID</th>
-                <th colspan="2">Tên Danh Mục Thời Trang / Giải Đấu</th>
+                <th colspan="2">Tên Danh Mục Thời Trang</th>
                 <th colspan="2" style="width: 150px;">Tính Năng</th>
             </tr>
             <?php

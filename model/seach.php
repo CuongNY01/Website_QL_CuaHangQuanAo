@@ -54,7 +54,7 @@
             echo "<div style='text-align: center; padding: 60px 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin: 30px auto;'>";
             echo "<i class='fa fa-search' style='font-size: 60px; color: #bdc3c7;'></i>";
             echo "<h3 style='color: #7f8c8d; margin: 15px 0;'>Rất tiếc, không tìm thấy sản phẩm nào phù hợp với từ khóa: '<span style=\"color:#e74c3c;\">" . htmlspecialchars($keyword) . "</span>'!</h3>";
-            echo "<p style='color: #95a5a6; margin-bottom: 25px;'>Gợi ý: Thử tìm theo tên đội bóng như Real, Barca, Arsenal, Manchester City hoặc tên giải đấu La Liga, Ngoại hạng Anh...</p>";
+            echo "<p style='color: #95a5a6; margin-bottom: 25px;'>Gợi ý: Thử tìm theo từ khóa như: 'áo sơ mi', 'váy', 'quần jean', 'áo khoác', 'polo', 'thể thao'...</p>";
             echo "<a href='../controller/index.php' style='display: inline-block; padding: 10px 25px; background: #007bff; color: #fff; text-decoration: none; border-radius: 20px; font-weight: 600;'>Quay lại trang chủ</a>";
             echo "</div>";
         }

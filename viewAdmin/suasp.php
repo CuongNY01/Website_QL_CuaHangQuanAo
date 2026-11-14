@@ -43,7 +43,7 @@
             </div>
 
             <div style="margin-bottom: 15px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Tên sản phẩm áo đấu / thời trang:</label>
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Tên sản phẩm thời trang (Áo/Quần/Váy):</label>
                 <input type="text" placeholder="Tên sản phẩm" name="tensp" required value="<?php echo htmlspecialchars($rows['tensp']); ?>" style="width: 100%; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px;">
             </div>
 

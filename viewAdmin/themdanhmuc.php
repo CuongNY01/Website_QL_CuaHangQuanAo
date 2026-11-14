@@ -21,8 +21,8 @@
                 <input type="number" placeholder="Để trống để tự động tăng" name="iddanhmuc" style="width: 100%; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px;">
             </div>
             <div style="text-align: left; margin-bottom: 20px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Tên danh mục thời trang / giải đấu:</label>
-                <input type="text" placeholder="Ví dụ: La Liga, Quần Áo Đấu Mùa 24/25..." name="name" required style="width: 100%; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Tên danh mục thời trang:</label>
+                <input type="text" placeholder="Ví dụ: Áo Nam, Thời Trang Nữ, Quần Jean, Đồ Thể Thao..." name="name" required style="width: 100%; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px;">
             </div>
             <div style="display: flex; justify-content: space-between; gap: 10px;">
                 <input type="submit" value="Thêm mới" name="them" style="flex: 1; height: 38px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">

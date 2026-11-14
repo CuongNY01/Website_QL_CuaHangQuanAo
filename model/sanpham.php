@@ -5,6 +5,11 @@ function sanpham_showAll(){
     return pdo_query($sql);
 }
 
+function sanpham_showHot(){
+    $sql = "SELECT sanpham.*, danhmuc.tendanhmuc FROM sanpham LEFT JOIN danhmuc ON sanpham.iddanhmuc = danhmuc.iddanhmuc ORDER BY sanpham.id DESC LIMIT 8";
+    return pdo_query($sql);
+}
+
 function sanpham_showId_1(){
     $sql = "SELECT * FROM sanpham WHERE iddanhmuc=1 ORDER BY id DESC";
     return pdo_query($sql);
@@ -17,6 +22,16 @@ function sanpham_showId_2(){
 
 function sanpham_showId_3(){
     $sql = "SELECT * FROM sanpham WHERE iddanhmuc=3 ORDER BY id DESC";
+    return pdo_query($sql);
+}
+
+function sanpham_showId_4(){
+    $sql = "SELECT * FROM sanpham WHERE iddanhmuc=4 ORDER BY id DESC";
+    return pdo_query($sql);
+}
+
+function sanpham_showId_5(){
+    $sql = "SELECT * FROM sanpham WHERE iddanhmuc=5 ORDER BY id DESC";
     return pdo_query($sql);
 }
 
@@ -41,7 +56,6 @@ function sanpham_update($tensp, $hinh, $gia, $danhmuc, $id){
 }
 
 function sanpham_delete($id){
-    // Delete related comments first to maintain integrity
     $sql_del_bl = "DELETE FROM binhluan WHERE idsp=?";
     pdo_execute($sql_del_bl, $id);
 
@@ -53,5 +67,4 @@ function sanpham_seach($name){
     $sql = "SELECT sanpham.*, danhmuc.tendanhmuc FROM sanpham LEFT JOIN danhmuc ON sanpham.iddanhmuc = danhmuc.iddanhmuc WHERE sanpham.tensp LIKE ? OR danhmuc.tendanhmuc LIKE ? ORDER BY sanpham.id DESC";
     return pdo_query($sql, '%' . $name . '%', '%' . $name . '%');
 }
-
 ?>

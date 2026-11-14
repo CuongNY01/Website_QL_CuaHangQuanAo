@@ -6,7 +6,7 @@ $keyword = trim($_POST['filter'] ?? ($_GET['filter'] ?? ''));
     <main>
         <h2 style="text-align: center; margin-bottom: 20px;">Tìm Kiếm Sản Phẩm Trong Kho</h2>
         <form action="../controller/indexAdmin.php?act=layout_tim" id="tim" method="POST" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 25px;">
-            <input type="text" name="filter" placeholder="Nhập tên áo đấu hoặc giải đấu..." value="<?php echo htmlspecialchars($keyword); ?>" style="width: 350px; height: 38px; padding: 5px 12px; border: 1px solid #ccc; border-radius: 4px;">
+            <input type="text" name="filter" placeholder="Nhập tên sản phẩm áo, quần, váy hoặc danh mục..." value="<?php echo htmlspecialchars($keyword); ?>" style="width: 380px; height: 38px; padding: 5px 12px; border: 1px solid #ccc; border-radius: 4px;">
             <input id="timkiem" type="submit" name="timkiem" value="Tìm kiếm" style="padding: 0 20px; height: 38px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">
         </form>
 

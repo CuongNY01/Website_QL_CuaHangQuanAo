@@ -3,21 +3,34 @@
 <?php
 $id = $_GET['id'] ?? 1;
 $dsdanhmmuc = danhmuc_showId($id);
-$tendanhmuc = $dsdanhmmuc['tendanhmuc'] ?? 'Tất cả sản phẩm';
+$tendanhmuc = $dsdanhmmuc['tendanhmuc'] ?? 'Thời Trang Tổng Hợp';
 
-// Choose suitable local banner for each category
+// Chọn banner phù hợp cho từng danh mục thời trang
 $banner_img = "banner4.png";
-if ($id == 1) {
-    $banner_img = "bannerlaliga.jpeg";
-} else if ($id == 2) {
-    $banner_img = "bannerNHA.jpeg";
-} else if ($id == 3) {
-    $banner_img = "bannervl.jpeg";
+switch ($id) {
+    case 1:
+        $banner_img = "banner10.jpg";
+        break;
+    case 2:
+        $banner_img = "banner111.jpg";
+        break;
+    case 3:
+        $banner_img = "banner6.jpeg";
+        break;
+    case 4:
+        $banner_img = "banner00.jpeg";
+        break;
+    case 5:
+        $banner_img = "bannerNHA.jpeg";
+        break;
+    default:
+        $banner_img = "banner4.png";
+        break;
 }
 ?>
 
 <div class="banner">
-    <img src="../view/images/<?= $banner_img ?>" alt="<?= htmlspecialchars($tendanhmuc) ?>">
+    <img src="../view/images/<?= $banner_img ?>" alt="<?= htmlspecialchars($tendanhmuc) ?>" style="width: 100%; max-height: 350px; object-fit: cover;">
 </div>
 
 <div class="product" style="margin-top: 30px; margin-bottom: 3rem;">
@@ -62,8 +75,8 @@ if ($id == 1) {
             }
         } else {
             echo '<div style="width: 100%; text-align: center; padding: 60px 0;">';
-            echo '<p style="font-size: 18px; color: #888;">Hiện tại chưa có mẫu áo nào trong danh mục này.</p>';
-            echo '<a href="../controller/index.php" style="display: inline-block; margin-top: 15px; padding: 8px 20px; background: #007bff; color: #fff; text-decoration: none; border-radius: 4px;">Xem sản phẩm khác</a>';
+            echo '<p style="font-size: 18px; color: #888;">Hiện tại chưa có sản phẩm nào trong danh mục này.</p>';
+            echo '<a href="../controller/index.php" style="display: inline-block; margin-top: 15px; padding: 8px 20px; background: #007bff; color: #fff; text-decoration: none; border-radius: 4px;">Khám phá danh mục khác</a>';
             echo '</div>';
         }
         ?>

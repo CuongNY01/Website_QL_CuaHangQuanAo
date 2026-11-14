@@ -29,8 +29,8 @@
             <h2 style="text-align: center; margin-bottom: 20px;">Thêm Mới Sản Phẩm</h2>
 
             <div style="margin-bottom: 15px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Tên sản phẩm áo đấu / thời trang:</label>
-                <input type="text" id="tensp" placeholder="Ví dụ: Áo Real Madrid Sân Nhà 24/25..." name="tensp" required style="width: 100%; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Tên sản phẩm thời trang (Áo/Quần/Váy):</label>
+                <input type="text" id="tensp" placeholder="Ví dụ: Áo Sơ Mi Oxford, Váy Xòe Công Sở, Quần Jean..." name="tensp" required style="width: 100%; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px;">
             </div>
 
             <div style="margin-bottom: 15px;">

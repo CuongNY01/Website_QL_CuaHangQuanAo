@@ -10,7 +10,7 @@ if (!$idsp) {
 } else {
     extract($idsp);
     $gia_vnd = number_format($gia, 0, ',', '.') . ' VNĐ';
-    $tendanhmuc = !empty($tendanhmuc) ? $tendanhmuc : 'Thời trang thể thao';
+    $tendanhmuc = !empty($tendanhmuc) ? $tendanhmuc : 'Thời trang';
 ?>
 
 <div class="ten" style="display: flex; align-items: center; gap: 8px; margin: 15px 40px; font-size: 15px;">
@@ -43,14 +43,14 @@ if (!$idsp) {
             
             <p style="margin: 8px 0; color: #555;"><b>Mã sản phẩm:</b> #<?= $id ?></p>
             <p style="margin: 8px 0; color: #555;"><b>Danh mục:</b> <?= htmlspecialchars($tendanhmuc) ?></p>
-            <p style="margin: 8px 0; color: #27ae60;"><b>Tình trạng:</b> <i class="fa fa-check-circle"></i> Còn hàng (Sẵn sàng giao)</p>
+            <p style="margin: 8px 0; color: #27ae60;"><b>Tình trạng:</b> <i class="fa fa-check-circle"></i> Còn hàng trong kho (Sẵn sàng giao)</p>
             
-            <!-- Chọn Kích cỡ áo thời trang -->
+            <!-- Chọn Kích cỡ thời trang -->
             <div style="margin: 15px 0;">
                 <p style="margin-bottom: 8px;"><b>Chọn Kích cỡ (Size):</b></p>
                 <div style="display: flex; gap: 10px;">
                     <label style="border: 1px solid #ccc; padding: 6px 14px; border-radius: 4px; cursor: pointer; font-weight: 600;">
-                        <input type="radio" name="size" value="S" style="display: none;" checked> S
+                        <input type="radio" name="size" value="S" style="display: none;"> S
                     </label>
                     <label style="border: 1px solid #ccc; padding: 6px 14px; border-radius: 4px; cursor: pointer; font-weight: 600;">
                         <input type="radio" name="size" value="M" style="display: none;"> M
@@ -82,15 +82,15 @@ if (!$idsp) {
 
             <!-- Cam kết chất lượng thời trang -->
             <div style="background: #f8f9fa; border-radius: 6px; padding: 15px; margin-top: 20px; border-left: 4px solid #007bff; font-size: 13px; line-height: 1.6; color: #555;">
-                <p><b><i class="fa fa-shield"></i> Cam kết chất lượng:</b> Vải mè thể thao cao cấp, công nghệ thấm hút mồ hôi tối ưu, co giãn 4 chiều.</p>
-                <p><b><i class="fa fa-refresh"></i> Đổi trả dễ dàng:</b> Hỗ trợ đổi size miễn phí trong vòng 7 ngày kể từ khi nhận hàng.</p>
-                <p><b><i class="fa fa-truck"></i> Giao hàng:</b> Miễn phí vận chuyển cho đơn hàng từ 500.000 VNĐ trên toàn quốc.</p>
+                <p><b><i class="fa fa-shield"></i> Cam kết chất lượng:</b> Vải may cao cấp (Cotton, Linen, Kaki, mè thể thao), đường may tỉ mỉ chuẩn xuất khẩu.</p>
+                <p><b><i class="fa fa-refresh"></i> Đổi trả dễ dàng:</b> Hỗ trợ thử đồ và đổi size miễn phí trong vòng 7 ngày kể từ khi nhận hàng.</p>
+                <p><b><i class="fa fa-truck"></i> Giao hàng:</b> Giao hàng tận nơi toàn quốc, kiểm tra hàng trước khi thanh toán (COD).</p>
             </div>
 
             <div style="margin-top: 20px; font-size: 13px; color: #666;">
-                <h4 style="margin-bottom: 5px; color: #333;">ĐỊA CHỈ MUA HÀNG TRỰC TIẾP</h4>
+                <h4 style="margin-bottom: 5px; color: #333;">ĐỊA CHỈ SHOWROOM THỜI TRANG</h4>
                 <p><i class="fa-solid fa-store" style="color: #e74c3c;"></i> Đường Trịnh Văn Bô, Nam Từ Liêm, TP. Hà Nội</p>
-                <p style="margin-top: 5px;">Gọi tư vấn mua hàng: <span style="color: #e74c3c; font-weight: 700;">024.2236.5888</span></p>
+                <p style="margin-top: 5px;">Hotline tư vấn và đặt may: <span style="color: #e74c3c; font-weight: 700;">024.2236.5888</span></p>
             </div>
         </form>
     </div>
