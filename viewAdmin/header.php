@@ -13,7 +13,7 @@ $admin_name = $_SESSION['userAd'] ?? 'Admin';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hệ Thống Quản Trị - Fashion Store 24/7</title>
-    <link rel="icon" href="../view/images/logo.jpg">
+    <link rel="icon" href="../view/images/logo_fashion.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -81,7 +81,7 @@ $admin_name = $_SESSION['userAd'] ?? 'Admin';
                 <i class='bx bx-store-alt'></i> Xem Website
             </a>
             <a href="../controller/indexAdmin.php?act=userAd" class="admin-profile-badge" title="Hồ sơ quản trị viên">
-                <img src="../view/images/logo.jpg" alt="Admin">
+                <img src="../view/images/logo_fashion.png" alt="Admin">
                 <span><?= htmlspecialchars($admin_name) ?></span>
             </a>
             <a href="../viewAdmin/logout.php" onclick="return confirm('Bạn có chắc chắn muốn đăng xuất tài khoản quản trị?');" class="admin-logout-btn" title="Đăng xuất">

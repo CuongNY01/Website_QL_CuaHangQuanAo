@@ -37,7 +37,7 @@ if (isset($_SESSION['idAdmin'])) {
 <div class="main" style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 40px 15px;">
     <form action="" method="POST" class="sua" style="width: 100%; max-width: 420px; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
         <div style="text-align: center; margin-bottom: 20px;">
-            <img src="../view/images/logo.jpg" alt="Logo Admin" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+            <img src="../view/images/logo_fashion.png" alt="Logo Admin" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
             <h3 style="color: #2c3e50; font-weight: 700; font-size: 22px;">HỆ THỐNG QUẢN TRỊ</h3>
             <p style="color: #7f8c8d; font-size: 13px;">Website Quản Lý Bán Quần Áo - 24/7</p>
         </div>

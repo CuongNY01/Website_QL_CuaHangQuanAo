@@ -285,10 +285,50 @@
                 display: none;
             }
         }
+
+        .mobile-quick-cats {
+            display: none;
+            overflow-x: auto;
+            white-space: nowrap;
+            background: #ffffff;
+            padding: 8px 15px;
+            border-bottom: 1px solid #e2e8f0;
+            gap: 8px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .mobile-quick-cats::-webkit-scrollbar {
+            display: none;
+        }
+        .mobile-cat-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 14px;
+            background: #f1f5f9;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #334155;
+            text-decoration: none;
+        }
+        .mobile-cat-chip.active {
+            background: #0f172a;
+            color: #fff;
+        }
+        @media (max-width: 860px) {
+            .mobile-quick-cats {
+                display: flex;
+            }
+        }
     </style>
 </head>
 
+<?php
+$cur_act = $_GET['act'] ?? '';
+$cur_cat = (int)($_GET['id'] ?? 0);
+?>
 <body>
+<div class="website-wrapper">
     <!-- TOP ANNOUNCEMENT BAR -->
     <div class="top-announce-bar">
         <div>
@@ -314,14 +354,14 @@
         <!-- GỌN GÀNG: MENU ĐIỀU HƯỚNG VỚI DROPDOWN DANH MỤC -->
         <ul class="taskbar-nav">
             <li>
-                <a href="../controller/index.php">
+                <a href="../controller/index.php" class="<?= (empty($cur_act)) ? 'nav-active' : '' ?>">
                     <i class='bx bx-home-alt'></i> Trang Chủ
                 </a>
             </li>
 
             <!-- DROPDOWN 5 DANH MỤC SẢN PHẨM -->
             <li class="nav-dropdown">
-                <a href="javascript:void(0)" style="cursor: pointer;">
+                <a href="javascript:void(0)" class="<?= ($cur_act === 'sanpham') ? 'nav-active' : '' ?>" style="cursor: pointer;">
                     <i class='bx bx-category'></i> Danh Mục Sản Phẩm <i class='bx bx-chevron-down' style="font-size: 16px;"></i>
                 </a>
                 <ul class="nav-dropdown-menu">
@@ -354,21 +394,21 @@
             </li>
 
             <li>
-                <a href="../controller/index.php?act=sanpham&id=1">Thời Trang Nam</a>
+                <a href="../controller/index.php?act=sanpham&id=1" class="<?= ($cur_act === 'sanpham' && $cur_cat === 1) ? 'nav-active' : '' ?>">Thời Trang Nam</a>
             </li>
             <li>
-                <a href="../controller/index.php?act=sanpham&id=2">Thời Trang Nữ</a>
+                <a href="../controller/index.php?act=sanpham&id=2" class="<?= ($cur_act === 'sanpham' && $cur_cat === 2) ? 'nav-active' : '' ?>">Thời Trang Nữ</a>
             </li>
             <li>
-                <a href="../controller/index.php?act=baiviet">
+                <a href="../controller/index.php?act=baiviet" class="<?= ($cur_act === 'baiviet') ? 'nav-active' : '' ?>">
                     <i class='bx bx-news'></i> Tin Tức
                 </a>
             </li>
             <li>
-                <a href="../controller/about.php">Giới Thiệu</a>
+                <a href="../controller/index.php?act=about" class="<?= ($cur_act === 'about') ? 'nav-active' : '' ?>">Giới Thiệu</a>
             </li>
             <li>
-                <a href="../controller/contac.php">Liên Hệ</a>
+                <a href="../controller/index.php?act=contac" class="<?= ($cur_act === 'contac') ? 'nav-active' : '' ?>">Liên Hệ</a>
             </li>
         </ul>
 
@@ -410,3 +450,17 @@
             </a>
         </div>
     </header>
+
+    <!-- MOBILE QUICK CATEGORIES BAR -->
+    <div class="mobile-quick-cats">
+        <a href="../controller/index.php" class="mobile-cat-chip <?= empty($cur_act) ? 'active' : '' ?>">Trang Chủ</a>
+        <a href="../controller/index.php?act=sanpham&id=1" class="mobile-cat-chip <?= ($cur_act === 'sanpham' && $cur_cat === 1) ? 'active' : '' ?>">Áo Nam</a>
+        <a href="../controller/index.php?act=sanpham&id=2" class="mobile-cat-chip <?= ($cur_act === 'sanpham' && $cur_cat === 2) ? 'active' : '' ?>">Thời Trang Nữ</a>
+        <a href="../controller/index.php?act=sanpham&id=3" class="mobile-cat-chip <?= ($cur_act === 'sanpham' && $cur_cat === 3) ? 'active' : '' ?>">Quần Jean & Tây</a>
+        <a href="../controller/index.php?act=sanpham&id=4" class="mobile-cat-chip <?= ($cur_act === 'sanpham' && $cur_cat === 4) ? 'active' : '' ?>">Áo Khoác</a>
+        <a href="../controller/index.php?act=sanpham&id=5" class="mobile-cat-chip <?= ($cur_act === 'sanpham' && $cur_cat === 5) ? 'active' : '' ?>">Thể Thao</a>
+        <a href="../controller/index.php?act=tracuudonhang" class="mobile-cat-chip <?= ($cur_act === 'tracuudonhang') ? 'active' : '' ?>">Tra Cứu Đơn</a>
+    </div>
+
+    <!-- MAIN PAGE CONTENT WRAPPER -->
+    <main class="site-main">

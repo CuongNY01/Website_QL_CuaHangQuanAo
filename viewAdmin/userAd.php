@@ -184,7 +184,7 @@ $recent_orders = array_slice($all_orders, 0, 5);
 <!-- PROFILE & PASSWORD FORM CARD -->
 <div class="admin-form-container">
     <div style="text-align: center; margin-bottom: 25px;">
-        <img src="../view/images/logo.jpg" alt="Admin" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 12px; border: 3px solid #eff6ff;">
+        <img src="../view/images/logo_fashion.png" alt="Admin" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 12px; border: 3px solid #eff6ff;">
         <h2 style="font-size: 20px; font-weight: 700; color: #1e293b; margin: 0;">Hồ Sơ Quản Trị Viên</h2>
         <p style="font-size: 13px; color: #64748b; margin-top: 4px;">Xin chào, <b><?= htmlspecialchars($current_user) ?></b> (Quyền: Administrator)</p>
     </div>

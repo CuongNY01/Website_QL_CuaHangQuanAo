@@ -31,7 +31,7 @@ if (isset($_POST['addcart'])) {
 
     $found = false;
     for ($i = 0; $i < count($_SESSION['giohang']); $i++) {
-        if ($_SESSION['giohang'][$i][1] == $ten) {
+        if ($_SESSION['giohang'][$i][1] == $ten && ($_SESSION['giohang'][$i][4] ?? 'M') == $size) {
             $_SESSION['giohang'][$i][3] += $soluong;
             $found = true;
             break;
@@ -64,7 +64,7 @@ if (isset($_POST['update_cart']) && isset($_POST['qty']) && is_array($_POST['qty
 ?>
 
 <div class="banner">
-    <img src="../view/images/bannerNHA.jpeg" alt="Giỏ Hàng" height="220px" style="object-fit: cover; width: 100%;">
+    <img src="../view/images/banner_home_fashion.jpg" alt="Giỏ Hàng Thời Trang" height="240px" style="object-fit: cover; width: 100%;">
 </div>
 
 <div class="main" style="max-width: 1200px; margin: 30px auto; padding: 0 20px;">
@@ -152,7 +152,7 @@ if (isset($_POST['update_cart']) && isset($_POST['qty']) && is_array($_POST['qty
                     <a href="../controller/index.php" style="padding: 12px 25px; background: #f1f2f6; color: #333; text-decoration: none; border-radius: 4px; font-weight: 600;">
                         <i class="fa fa-arrow-left"></i> Tiếp tục mua sắm
                     </a>
-                    <a href="../controller/thanhtoan.php" style="padding: 12px 30px; background: #27ae60; color: #fff; text-decoration: none; border-radius: 4px; font-weight: 700; font-size: 15px; box-shadow: 0 4px 10px rgba(39,174,96,0.3);">
+                    <a href="../controller/index.php?act=thanhtoan" style="padding: 12px 30px; background: #27ae60; color: #fff; text-decoration: none; border-radius: 4px; font-weight: 700; font-size: 15px; box-shadow: 0 4px 10px rgba(39,174,96,0.3);">
                         Tiến hành đặt hàng <i class="fa fa-arrow-right"></i>
                     </a>
                 </div>

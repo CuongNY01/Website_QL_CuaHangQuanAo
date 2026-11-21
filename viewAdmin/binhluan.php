@@ -56,7 +56,7 @@ $list_binhluan = binhluan_showall();
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="../controller/index.php?act=chitietsp&idsanpham=<?= $idsp ?>" target="_blank" style="color: #3b82f6; text-decoration: none; font-weight: 500; font-size: 13px;">
+                                    <a href="../controller/index.php?act=chitietsp&idsp=<?= $idsp ?>" target="_blank" style="color: #3b82f6; text-decoration: none; font-weight: 500; font-size: 13px;">
                                         <?= htmlspecialchars($tensp) ?> <i class='bx bx-link-external' style="font-size: 11px;"></i>
                                     </a>
                                 </td>

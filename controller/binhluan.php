@@ -104,7 +104,7 @@ if (isset($_POST['gui'])) {
                     <img src="../view/images/<?= htmlspecialchars($user_avt) ?>" alt="" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                     <div style="flex: 1;">
                         <span style="font-weight: 600; font-size: 14px; color: #333;"><?= htmlspecialchars($user_name) ?></span>
-                        <textarea name="noidung" required placeholder="Chia sẻ cảm nhận của bạn về chất liệu vải, form áo, độ hoàn thiện của sản phẩm..." style="width: 100%; height: 80px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; margin-top: 8px; resize: vertical;"></textarea>
+                        <textarea name="noidung" required placeholder="Chia sẻ cảm nhận của bạn về form dáng, chất liệu vải, độ hoàn thiện của sản phẩm..." style="width: 100%; height: 80px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; margin-top: 8px; resize: vertical;"></textarea>
                         <input type="submit" value="Gửi Đánh Giá" name="gui" class="btn-submit-bl">
                     </div>
                 </div>
@@ -114,7 +114,7 @@ if (isset($_POST['gui'])) {
         <div style="background: #eef2f7; padding: 15px 20px; border-radius: 6px; margin-bottom: 20px; font-size: 14px; color: #555;">
             <i class="fa fa-info-circle" style="color: #007bff;"></i> Bạn cần 
             <a href="../controller/index.php?act=login" target="_parent" style="color: #007bff; font-weight: 600; text-decoration: underline;">Đăng nhập tài khoản</a> 
-            để viết nhận xét và đánh giá về mẫu áo này.
+            để viết nhận xét và đánh giá về sản phẩm thời trang này.
         </div>
     <?php endif; ?>
 
@@ -143,7 +143,7 @@ if (isset($_POST['gui'])) {
                 ';
             }
         } else {
-            echo '<p style="color: #888; font-style: italic; padding: 10px 0;">Chưa có nhận xét nào cho mẫu áo này. Hãy là người đầu tiên chia sẻ cảm nhận!</p>';
+            echo '<p style="color: #888; font-style: italic; padding: 10px 0;">Chưa có nhận xét nào cho sản phẩm này. Hãy là người đầu tiên chia sẻ cảm nhận!</p>';
         }
         ?>
     </div>
