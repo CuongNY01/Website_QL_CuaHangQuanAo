@@ -35,10 +35,12 @@ if (isset($_POST['login'])) {
 
 <div class="main" style="max-width: 600px; margin: 40px auto; padding: 0 20px;">
     <?php if (isset($_SESSION['name'])): ?>
-        <div class="userlogin" style="background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); text-align: center;">
-            <img src="../view/images/<?= !empty($_SESSION['avata']) ? htmlspecialchars($_SESSION['avata']) : 'iconUser.png' ?>" alt="Avatar" style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid #007bff; margin-bottom: 15px;">
-            <h2 style="color: #2c3e50; margin-bottom: 5px;">Xin Chào: <span style="color: #007bff;"><?= htmlspecialchars($_SESSION['name']) ?></span></h2>
-            <p style="color: #7f8c8d; font-size: 14px; margin-bottom: 25px;">Thành viên của Fashion Store 24/7</p>
+        <div class="userlogin" style="background: #fff; padding: 35px 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); text-align: center; border: 1px solid #e2e8f0; height: auto;">
+            <img src="../view/images/<?= !empty($_SESSION['avata']) ? htmlspecialchars($_SESSION['avata']) : 'iconUser.png' ?>" alt="Avatar" style="width: 95px; height: 95px; border-radius: 50%; object-fit: cover; border: 3px solid #3b82f6; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(59,130,246,0.15);">
+            <h2 style="color: #0f172a; margin: 0 0 8px 0; font-size: 22px; font-weight: 800; height: auto !important; background: transparent !important; line-height: 1.4 !important; display: block;">
+                Xin Chào: <span style="color: #3b82f6; font-weight: 800;"><?= htmlspecialchars($_SESSION['name']) ?></span>
+            </h2>
+            <p style="color: #64748b; font-size: 14px; margin: 0 0 25px 0;">Thành viên của Fashion Store 24/7</p>
 
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; text-align: left; font-size: 14px;">
                 <tr style="border-bottom: 1px solid #eee;">

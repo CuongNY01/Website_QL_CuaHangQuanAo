@@ -114,6 +114,7 @@
             text-decoration: none;
             border-radius: 8px;
             transition: all 0.2s ease;
+            white-space: nowrap;
         }
         .taskbar-nav > li > a:hover {
             color: var(--nav-accent);
@@ -266,6 +267,13 @@
             border: 1px solid #e2e8f0;
             text-decoration: none;
             transition: all 0.2s ease;
+            white-space: nowrap;
+            max-width: 170px;
+        }
+        .user-greeting span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .user-greeting:hover {
             background: #eff6ff;
@@ -359,7 +367,7 @@ $cur_cat = (int)($_GET['id'] ?? 0);
                 </a>
             </li>
 
-            <!-- DROPDOWN 5 DANH MỤC SẢN PHẨM -->
+            <!-- DROPDOWN DANH MỤC SẢN PHẨM: BAO GỒM CẢ THỜI TRANG NAM VÀ THỜI TRANG NỮ -->
             <li class="nav-dropdown">
                 <a href="javascript:void(0)" class="<?= ($cur_act === 'sanpham') ? 'nav-active' : '' ?>" style="cursor: pointer;">
                     <i class='bx bx-category'></i> Danh Mục Sản Phẩm <i class='bx bx-chevron-down' style="font-size: 16px;"></i>
@@ -367,7 +375,7 @@ $cur_cat = (int)($_GET['id'] ?? 0);
                 <ul class="nav-dropdown-menu">
                     <li>
                         <a href="../controller/index.php?act=sanpham&id=1">
-                            <i class='bx bx-male'></i> Áo Nam & Sơ Mi
+                            <i class='bx bx-male'></i> Thời Trang Nam & Áo Sơ Mi
                         </a>
                     </li>
                     <li>
@@ -393,12 +401,6 @@ $cur_cat = (int)($_GET['id'] ?? 0);
                 </ul>
             </li>
 
-            <li>
-                <a href="../controller/index.php?act=sanpham&id=1" class="<?= ($cur_act === 'sanpham' && $cur_cat === 1) ? 'nav-active' : '' ?>">Thời Trang Nam</a>
-            </li>
-            <li>
-                <a href="../controller/index.php?act=sanpham&id=2" class="<?= ($cur_act === 'sanpham' && $cur_cat === 2) ? 'nav-active' : '' ?>">Thời Trang Nữ</a>
-            </li>
             <li>
                 <a href="../controller/index.php?act=baiviet" class="<?= ($cur_act === 'baiviet') ? 'nav-active' : '' ?>">
                     <i class='bx bx-news'></i> Tin Tức

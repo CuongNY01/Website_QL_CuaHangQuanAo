@@ -684,24 +684,27 @@ marquee a {
 }
 
 .userlogin {
-    width: 50%;
-    height: 50%;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
     text-align: center;
     margin: auto;
-    background: #758884;
-    box-shadow: 0 0 5px #212529;
-    margin-top: 5%;
-    padding-bottom: 20px;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    padding: 30px;
 }
 
 .userlogin h2 {
-    background: #324148 !important;
-    height: 40px;
-    color: white;
+    background: transparent !important;
+    height: auto;
+    color: #2c3e50;
+    line-height: 1.4;
+    margin-bottom: 8px;
 }
 
 .userlogin h2 span {
-    color: yellow;
+    color: #007bff;
 }
 
 .bang {
