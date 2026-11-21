@@ -13,6 +13,36 @@ if (!$idsp) {
     $tendanhmuc = !empty($tendanhmuc) ? $tendanhmuc : 'Thời trang';
 ?>
 
+<style>
+    .size-option-label {
+        display: inline-block;
+        cursor: pointer;
+    }
+    .size-option-label input[type="radio"] {
+        display: none;
+    }
+    .size-option-label span {
+        display: inline-block;
+        border: 1px solid #cbd5e1;
+        padding: 7px 16px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 14px;
+        color: #334155;
+        transition: all 0.2s ease;
+    }
+    .size-option-label span:hover {
+        border-color: #3b82f6;
+        color: #3b82f6;
+    }
+    .size-option-label input[type="radio"]:checked + span {
+        background: #0f172a;
+        color: #fff;
+        border-color: #0f172a;
+        box-shadow: 0 2px 6px rgba(15,23,42,0.25);
+    }
+</style>
+
 <div class="ten" style="display: flex; align-items: center; gap: 8px; margin: 15px 40px; font-size: 15px;">
     <a href="../controller/index.php" style="text-decoration: none; color: #555;">Trang chủ</a>
     <i class="fa-solid fa-caret-right" style="color: #999;"></i>
@@ -49,20 +79,25 @@ if (!$idsp) {
             <div style="margin: 15px 0;">
                 <p style="margin-bottom: 8px;"><b>Chọn Kích cỡ (Size):</b></p>
                 <div style="display: flex; gap: 10px;">
-                    <label style="border: 1px solid #ccc; padding: 6px 14px; border-radius: 4px; cursor: pointer; font-weight: 600;">
-                        <input type="radio" name="size" value="S" style="display: none;"> S
+                    <label class="size-option-label">
+                        <input type="radio" name="size" value="S">
+                        <span>S</span>
                     </label>
-                    <label style="border: 1px solid #ccc; padding: 6px 14px; border-radius: 4px; cursor: pointer; font-weight: 600;">
-                        <input type="radio" name="size" value="M" style="display: none;"> M
+                    <label class="size-option-label">
+                        <input type="radio" name="size" value="M">
+                        <span>M</span>
                     </label>
-                    <label style="border: 1px solid #ccc; padding: 6px 14px; border-radius: 4px; cursor: pointer; font-weight: 600; background: #2c3e50; color: #fff;">
-                        <input type="radio" name="size" value="L" style="display: none;" checked> L
+                    <label class="size-option-label">
+                        <input type="radio" name="size" value="L" checked>
+                        <span>L</span>
                     </label>
-                    <label style="border: 1px solid #ccc; padding: 6px 14px; border-radius: 4px; cursor: pointer; font-weight: 600;">
-                        <input type="radio" name="size" value="XL" style="display: none;"> XL
+                    <label class="size-option-label">
+                        <input type="radio" name="size" value="XL">
+                        <span>XL</span>
                     </label>
-                    <label style="border: 1px solid #ccc; padding: 6px 14px; border-radius: 4px; cursor: pointer; font-weight: 600;">
-                        <input type="radio" name="size" value="XXL" style="display: none;"> XXL
+                    <label class="size-option-label">
+                        <input type="radio" name="size" value="XXL">
+                        <span>XXL</span>
                     </label>
                 </div>
             </div>

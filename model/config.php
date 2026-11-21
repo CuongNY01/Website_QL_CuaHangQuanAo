@@ -120,4 +120,21 @@
       throw $e;
     }
   }
+
+  function pdo_query_value($sql){
+    $sql_args = array_slice(func_get_args(), 1);
+    $conn = pdo_con();
+    if ($conn === null) {
+      pdo_show_error($conn);
+      return null;
+    }
+    try {
+      $stmt = $conn->prepare($sql);
+      $stmt->execute($sql_args);
+      $row = $stmt->fetch(PDO::FETCH_NUM);
+      return $row ? $row[0] : null;
+    } catch (PDOException $e) {
+      throw $e;
+    }
+  }
 ?>

@@ -1,4 +1,6 @@
 <?php
+include_once "../model/donhang.php";
+
 $id = $_SESSION['idAdmin'] ?? 1;
 $admin = show_admin_id_one($id);
 if (!$admin) {
@@ -43,10 +45,15 @@ $total_sp = count(sanpham_showAll());
 $total_dm = count(danhmuc_showAll());
 $total_user = count(show_user());
 $total_bl = count(binhluan_showall());
+$all_orders = donhang_showAll();
+$total_dh = count($all_orders);
+$pending_dh = donhang_count_pending();
+$total_rev = donhang_tong_doanhthu();
+$recent_orders = array_slice($all_orders, 0, 5);
 ?>
 
-<!-- 4 STAT METRICS CARDS -->
-<div class="admin-stats-grid">
+<!-- 6 STAT METRICS CARDS -->
+<div class="admin-stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));">
     <div class="stat-card">
         <div class="stat-info">
             <p>Tổng Sản Phẩm</p>
@@ -69,6 +76,26 @@ $total_bl = count(binhluan_showall());
 
     <div class="stat-card">
         <div class="stat-info">
+            <p>Tổng Đơn Hàng</p>
+            <h3><?= $total_dh ?> <span style="font-size: 13px; font-weight: 600; color: #f59e0b;">(<?= $pending_dh ?> mới)</span></h3>
+        </div>
+        <div class="stat-icon amber">
+            <i class='bx bx-receipt'></i>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-info">
+            <p>Doanh Thu Shop</p>
+            <h3 style="font-size: 22px; color: #10b981;"><?= number_format($total_rev, 0, ',', '.') ?>đ</h3>
+        </div>
+        <div class="stat-icon emerald">
+            <i class='bx bx-dollar-circle'></i>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-info">
             <p>Khách Hàng</p>
             <h3><?= $total_user ?></h3>
         </div>
@@ -82,8 +109,74 @@ $total_bl = count(binhluan_showall());
             <p>Đánh Giá & Review</p>
             <h3><?= $total_bl ?></h3>
         </div>
-        <div class="stat-icon amber">
+        <div class="stat-icon blue">
             <i class='bx bx-comment-dots'></i>
+        </div>
+    </div>
+</div>
+
+<!-- KHỐI 5 ĐƠN HÀNG GẦN ĐÂY CẦN XỬ LÝ -->
+<div class="admin-card" style="margin-bottom: 30px;">
+    <div class="admin-card-header">
+        <div class="admin-card-title-group">
+            <h2><i class='bx bx-time-five' style="color: #3b82f6;"></i> Đơn Hàng Mới Nhất</h2>
+            <p>Các đơn đặt hàng vừa được khách đặt cần kiểm tra và xử lý vận chuyển</p>
+        </div>
+        <div>
+            <a href="../controller/indexAdmin.php?act=donhang" class="btn-action btn-secondary" style="font-size: 13px;">
+                Xem tất cả đơn hàng <i class='bx bx-chevron-right'></i>
+            </a>
+        </div>
+    </div>
+    <div class="admin-card-body" style="padding: 0;">
+        <div class="table-responsive">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Mã Đơn</th>
+                        <th>Khách Hàng / SĐT</th>
+                        <th>Ngày Đặt</th>
+                        <th style="text-align: right;">Tổng Tiền</th>
+                        <th style="text-align: center;">Trạng Thái</th>
+                        <th style="text-align: center;">Thao Tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($recent_orders)): ?>
+                        <?php foreach ($recent_orders as $ro): 
+                            $stt = $ro['trangthai'];
+                            $badge_class = "badge-warning";
+                            if ($stt === 'Đang giao hàng' || $stt === 'Đang chuẩn bị hàng') {
+                                $badge_class = "badge-info";
+                            } else if ($stt === 'Giao thành công') {
+                                $badge_class = "badge-success";
+                            } else if ($stt === 'Đã hủy') {
+                                $badge_class = "badge-danger";
+                            }
+                        ?>
+                            <tr>
+                                <td><strong style="color: #0f172a;">#<?= htmlspecialchars($ro['madh']) ?></strong></td>
+                                <td>
+                                    <strong><?= htmlspecialchars($ro['hoten']) ?></strong>
+                                    <div style="font-size: 12px; color: #64748b;"><?= htmlspecialchars($ro['sdt']) ?></div>
+                                </td>
+                                <td style="color: #64748b; font-size: 13px;"><?= date("d/m/Y H:i", strtotime($ro['ngaydathang'])) ?></td>
+                                <td style="text-align: right; font-weight: 700; color: #ef4444;"><?= number_format($ro['tongtien'], 0, ',', '.') ?> đ</td>
+                                <td style="text-align: center;">
+                                    <span class="badge-pill <?= $badge_class ?>"><?= htmlspecialchars($stt) ?></span>
+                                </td>
+                                <td style="text-align: center;">
+                                    <a href="../controller/indexAdmin.php?act=chitietdonhang&id=<?= $ro['id'] ?>" class="btn-action btn-edit" style="padding: 5px 12px;">
+                                        <i class='bx bx-show'></i> Xem chi tiết
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr><td colspan="6" style="text-align: center; padding: 30px; color: #94a3b8;">Chưa có đơn hàng nào.</td></tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

@@ -294,7 +294,8 @@
         <div>
             <span>🔥 <b>Ưu đãi mùa mới:</b> Miễn phí vận chuyển toàn quốc cho đơn từ 500.000đ • Hỗ trợ đổi size 7 ngày</span>
         </div>
-        <div style="display: flex; gap: 15px;">
+        <div style="display: flex; gap: 15px; align-items: center;">
+            <a href="../controller/index.php?act=tracuudonhang" style="color: #cbd5e1; text-decoration: none;"><i class='bx bx-search'></i> Tra cứu đơn hàng</a>
             <span>Hotline: <b>1900 6868</b></span>
             <a href="../controller/indexAdmin.php" target="_blank"><i class='bx bx-lock-alt'></i> Quản trị Admin</a>
         </div>

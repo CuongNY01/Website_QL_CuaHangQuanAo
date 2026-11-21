@@ -75,8 +75,8 @@ if (isset($_POST['update_cart']) && isset($_POST['qty']) && is_array($_POST['qty
         <div style="text-align: center; padding: 60px 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin: 30px auto;">
             <i class='bx bx-shopping-bag' style="font-size: 72px; color: #bdc3c7;"></i>
             <h3 style="color: #7f8c8d; margin: 15px 0;">Giỏ hàng của bạn đang trống!</h3>
-            <p style="color: #95a5a6; margin-bottom: 25px;">Hãy khám phá các mẫu áo đấu bóng đá và trang phục thể thao mới nhất của chúng tôi.</p>
-            <a href="../controller/index.php" style="display: inline-block; padding: 12px 30px; background: #e74c3c; color: #fff; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 15px;">
+            <p style="color: #95a5a6; margin-bottom: 25px;">Hãy khám phá các bộ sưu tập quần áo và trang phục thời trang mới nhất của chúng tôi.</p>
+            <a href="../controller/index.php" style="display: inline-block; padding: 12px 30px; background: #0f172a; color: #fff; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 15px;">
                 <i class="fa fa-arrow-left"></i> TIẾP TỤC MUA SẮM
             </a>
         </div>
@@ -84,14 +84,15 @@ if (isset($_POST['update_cart']) && isset($_POST['qty']) && is_array($_POST['qty
         <form method="POST" action="../controller/index.php?act=cart">
             <table style="width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
                 <thead>
-                    <tr class="nen" style="background: #2c3e50; color: #fff; text-align: center;">
-                        <th style="padding: 12px; width: 60px;">STT</th>
-                        <th style="width: 100px;">Ảnh</th>
+                    <tr class="nen" style="background: #1e293b; color: #fff; text-align: center;">
+                        <th style="padding: 12px; width: 50px;">STT</th>
+                        <th style="width: 90px;">Ảnh</th>
                         <th>Tên sản phẩm</th>
+                        <th style="width: 80px;">Size</th>
                         <th>Đơn giá</th>
-                        <th style="width: 120px;">Số lượng</th>
+                        <th style="width: 110px;">Số lượng</th>
                         <th>Thành tiền</th>
-                        <th style="width: 80px;">Xóa</th>
+                        <th style="width: 70px;">Xóa</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -102,22 +103,26 @@ if (isset($_POST['update_cart']) && isset($_POST['qty']) && is_array($_POST['qty
                         $ten = $item[1];
                         $gia = $item[2];
                         $soluong = $item[3];
+                        $size = $item[4] ?? 'M';
                         $tt = $gia * $soluong;
                         $tong += $tt;
                     ?>
                     <tr style="border-bottom: 1px solid #eee; text-align: center;">
                         <td style="padding: 12px;"><?= ($i + 1) ?></td>
                         <td>
-                            <img src="../view/images/<?= htmlspecialchars($hinh) ?>" alt="" style="width: 70px; height: 70px; object-fit: contain;">
+                            <img src="../view/images/<?= htmlspecialchars($hinh) ?>" alt="" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #e2e8f0;">
                         </td>
                         <td style="text-align: left; font-weight: 600; color: #333;">
                             <p style="margin: 0;"><?= htmlspecialchars($ten) ?></p>
                         </td>
-                        <td style="color: #e74c3c; font-weight: 600;">
+                        <td>
+                            <span style="background: #f1f5f9; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 13px; color: #334155;"><?= htmlspecialchars($size) ?></span>
+                        </td>
+                        <td style="color: #64748b; font-weight: 600;">
                             <?= number_format($gia, 0, ',', '.') ?> VNĐ
                         </td>
                         <td>
-                            <input type="number" name="qty[<?= $i ?>]" value="<?= $soluong ?>" min="1" max="99" style="width: 60px; height: 32px; text-align: center; border: 1px solid #ccc; border-radius: 4px;">
+                            <input type="number" name="qty[<?= $i ?>]" value="<?= $soluong ?>" min="1" max="99" style="width: 55px; height: 32px; text-align: center; border: 1px solid #ccc; border-radius: 4px;">
                         </td>
                         <td style="color: #e74c3c; font-weight: 700;">
                             <?= number_format($tt, 0, ',', '.') ?> VNĐ
@@ -130,7 +135,7 @@ if (isset($_POST['update_cart']) && isset($_POST['qty']) && is_array($_POST['qty
                     </tr>
                     <?php endforeach; ?>
                     <tr style="background: #f8f9fa;">
-                        <td colspan="4" style="text-align: right; padding: 15px; font-weight: 700; font-size: 16px;">Tổng Tiền Thanh Toán:</td>
+                        <td colspan="5" style="text-align: right; padding: 15px; font-weight: 700; font-size: 16px;">Tổng Tiền Thanh Toán:</td>
                         <td colspan="3" style="text-align: left; padding: 15px; font-size: 20px; color: #e74c3c; font-weight: 700;">
                             <?= number_format($tong, 0, ',', '.') ?> VNĐ
                         </td>

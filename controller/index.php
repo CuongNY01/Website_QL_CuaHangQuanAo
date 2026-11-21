@@ -5,6 +5,7 @@ include_once "../model/danhmuc.php";
 include_once "../model/sanpham.php";
 include_once "../model/binhluan.php";
 include_once "../model/user.php";
+include_once "../model/donhang.php";
 include_once "../model/login_submit.php";
 include_once "../model/register_submit.php";
 
@@ -46,6 +47,11 @@ switch ($act) {
         break;
     case 'thanhtoan':
         include "../view/thanhtoan.php";
+        break;
+    case 'lichsudonhang':
+    case 'myorder':
+    case 'tracuudonhang':
+        include "../view/lichsudonhang.php";
         break;
     default:
         include "../view/home.php";

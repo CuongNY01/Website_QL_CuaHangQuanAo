@@ -50,6 +50,20 @@ $admin_name = $_SESSION['userAd'] ?? 'Admin';
                     <i class='bx bx-closet'></i> Sản Phẩm
                 </a>
             </li>
+            <?php
+            $badge_pending = 0;
+            if (function_exists('donhang_count_pending')) {
+                $badge_pending = donhang_count_pending();
+            }
+            ?>
+            <li>
+                <a href="../controller/indexAdmin.php?act=donhang" class="<?= (in_array($act, ['donhang', 'chitietdonhang'])) ? 'active' : '' ?>" style="position: relative;">
+                    <i class='bx bx-receipt'></i> Đơn Hàng
+                    <?php if ($badge_pending > 0): ?>
+                        <span style="background: #ef4444; color: #fff; font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 10px; margin-left: 4px;"><?= $badge_pending ?></span>
+                    <?php endif; ?>
+                </a>
+            </li>
             <li>
                 <a href="../controller/indexAdmin.php?act=admin" class="<?= (in_array($act, ['admin', 'themuser', 'suauser'])) ? 'active' : '' ?>">
                     <i class='bx bx-group'></i> Khách Hàng

@@ -2,6 +2,8 @@
 <link rel="stylesheet" href="../view/css/products.css">
 
 <?php
+include_once "../model/donhang.php";
+
 if (!isset($_SESSION['giohang'])) {
     $_SESSION['giohang'] = [];
 }
@@ -50,17 +52,38 @@ if (isset($_POST['confirm_order'])) {
     $pttt = $_POST['pttt'] ?? 'COD';
     $note = trim($_POST['note'] ?? '');
 
-    if ($name != "" && $phone != "" && $address != "") {
+    if ($name != "" && $phone != "" && $address != "" && !empty($_SESSION['giohang'])) {
         $order_id = "DH" . date("YmdHis");
+        $iduser = isset($_SESSION['id']) ? (int)$_SESSION['id'] : null;
+
+        // Lưu đơn hàng vào cơ sở dữ liệu
+        $inserted_id = donhang_insert($order_id, $iduser, $name, $phone, $email, $address, $pttt, $note, $thanh_toan, 'Chờ xác nhận');
+        
+        $saved_items = $_SESSION['giohang'];
+        if ($inserted_id > 0) {
+            foreach ($saved_items as $item) {
+                $hinh = $item[0] ?? '';
+                $tensp = $item[1] ?? 'Trang phục thời trang';
+                $dongia = (int)($item[2] ?? 0);
+                $soluong = (int)($item[3] ?? 1);
+                $size = $item[4] ?? 'M';
+                $idsp = isset($item[5]) ? (int)$item[5] : 0;
+                $thanhtien = $dongia * $soluong;
+
+                donhang_chitiet_insert($inserted_id, $idsp, $tensp, $hinh, $size, $dongia, $soluong, $thanhtien);
+            }
+        }
+
         $order_info = [
             'id' => $order_id,
+            'db_id' => $inserted_id,
             'name' => $name,
             'email' => $email,
             'phone' => $phone,
             'address' => $address,
             'pttt' => $pttt,
             'note' => $note,
-            'items' => $_SESSION['giohang'],
+            'items' => $saved_items,
             'subtotal' => $tong_tien,
             'discount' => $discount_amount,
             'shipping' => $phi_ship,
@@ -83,34 +106,102 @@ $pre_email = $_SESSION['email'] ?? '';
 ?>
 
 <div class="banner">
-    <img src="../view/images/banner4.png" alt="Thanh Toán" height="220px" style="object-fit: cover; width: 100%;">
+    <img src="../view/images/banner_home_fashion.jpg" alt="Thanh Toán" height="240px" style="object-fit: cover; width: 100%;">
 </div>
 
 <div class="main" style="max-width: 1200px; margin: 30px auto; padding: 0 20px;">
     <?php if ($order_success): ?>
-        <!-- Giao diện thông báo Đặt hàng thành công -->
-        <div style="text-align: center; padding: 50px 30px; background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin: 30px auto; max-width: 800px;">
-            <i class='bx bx-check-circle' style="font-size: 80px; color: #27ae60;"></i>
-            <h2 style="color: #27ae60; margin: 15px 0;">ĐẶT HÀNG THÀNH CÔNG!</h2>
-            <p style="font-size: 16px; color: #555;">Cảm ơn quý khách <b><?= htmlspecialchars($order_info['name']) ?></b> đã tin tưởng đặt mua quần áo thời trang tại <b>Football Store 24/7</b>.</p>
-            <p style="color: #7f8c8d; font-size: 14px;">Mã đơn hàng: <b style="color: #e74c3c; font-size: 16px;"><?= $order_info['id'] ?></b> | Ngày đặt: <?= $order_info['date'] ?></p>
-
-            <div style="background: #f8f9fa; border-radius: 6px; padding: 20px; margin: 25px 0; text-align: left; font-size: 14px;">
-                <h4 style="margin-bottom: 10px; color: #2c3e50; border-bottom: 1px solid #ddd; padding-bottom: 8px;">Thông Tin Nhận Hàng</h4>
-                <p><b>Người nhận:</b> <?= htmlspecialchars($order_info['name']) ?> - <b>SĐT:</b> <?= htmlspecialchars($order_info['phone']) ?></p>
-                <p><b>Email:</b> <?= htmlspecialchars($order_info['email']) ?></p>
-                <p><b>Địa chỉ giao nhận:</b> <?= htmlspecialchars($order_info['address']) ?></p>
-                <p><b>Hình thức thanh toán:</b> <?= htmlspecialchars($order_info['pttt']) ?></p>
-                <?php if (!empty($order_info['note'])): ?>
-                    <p><b>Ghi chú:</b> <?= htmlspecialchars($order_info['note']) ?></p>
-                <?php endif; ?>
-                <p style="margin-top: 10px; font-size: 16px; font-weight: 700; color: #e74c3c;">Tổng thanh toán: <?= number_format($order_info['total'], 0, ',', '.') ?> VNĐ</p>
+        <!-- Giao diện thông báo Đặt hàng thành công & Hóa đơn chi tiết -->
+        <div style="text-align: center; padding: 45px 30px; background: #fff; border-radius: 12px; box-shadow: 0 6px 25px rgba(0,0,0,0.08); margin: 30px auto; max-width: 850px; border: 1px solid #e2e8f0;">
+            <i class='bx bx-check-circle' style="font-size: 85px; color: #10b981;"></i>
+            <h2 style="color: #0f172a; margin: 15px 0 8px 0; font-weight: 800;">ĐẶT HÀNG THÀNH CÔNG!</h2>
+            <p style="font-size: 15px; color: #64748b; margin-bottom: 20px;">
+                Cảm ơn quý khách <b><?= htmlspecialchars($order_info['name']) ?></b> đã đặt mua quần áo thời trang tại <b>Fashion Store 24/7</b>.
+            </p>
+            <div style="display: inline-block; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 8px 20px; font-size: 15px; color: #1e40af; margin-bottom: 25px;">
+                Mã đơn hàng: <b style="color: #ef4444; font-size: 17px;"><?= $order_info['id'] ?></b> | Ngày đặt: <?= $order_info['date'] ?>
             </div>
 
-            <p style="color: #555; font-size: 14px;">Nhân viên chăm sóc khách hàng sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận đơn hàng.</p>
-            <div style="margin-top: 25px;">
-                <a href="../controller/index.php" style="display: inline-block; padding: 12px 35px; background: #007bff; color: #fff; text-decoration: none; border-radius: 25px; font-weight: 600;">
-                    <i class="fa fa-shopping-bag"></i> Tiếp tục mua sắm
+            <!-- Bảng danh sách sản phẩm đã đặt -->
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; margin-bottom: 25px; text-align: left;">
+                <div style="background: #f8fafc; padding: 12px 18px; border-bottom: 1px solid #e2e8f0; font-weight: 700; color: #334155;">
+                    <i class='bx bx-shopping-bag'></i> Danh Sách Sản Phẩm Đã Mua
+                </div>
+                <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid #f1f5f9; color: #64748b; font-size: 12px; text-transform: uppercase;">
+                            <th style="padding: 10px 15px; text-align: left;">Sản phẩm</th>
+                            <th style="padding: 10px 15px; text-align: center;">Size</th>
+                            <th style="padding: 10px 15px; text-align: right;">Đơn giá</th>
+                            <th style="padding: 10px 15px; text-align: center;">SL</th>
+                            <th style="padding: 10px 15px; text-align: right;">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($order_info['items'] as $it): 
+                            $it_sub = (int)$it[2] * (int)$it[3];
+                        ?>
+                            <tr style="border-bottom: 1px solid #f1f5f9;">
+                                <td style="padding: 10px 15px; display: flex; align-items: center; gap: 10px;">
+                                    <img src="../view/images/<?= htmlspecialchars($it[0]) ?>" alt="" style="width: 44px; height: 44px; object-fit: cover; border-radius: 6px; border: 1px solid #e2e8f0;">
+                                    <span style="font-weight: 600; color: #1e293b;"><?= htmlspecialchars($it[1]) ?></span>
+                                </td>
+                                <td style="padding: 10px 15px; text-align: center;">
+                                    <span style="background: #f1f5f9; padding: 2px 8px; border-radius: 4px; font-weight: 600;"><?= htmlspecialchars($it[4] ?? 'M') ?></span>
+                                </td>
+                                <td style="padding: 10px 15px; text-align: right; color: #64748b;"><?= number_format($it[2], 0, ',', '.') ?> đ</td>
+                                <td style="padding: 10px 15px; text-align: center; font-weight: 600;"><?= $it[3] ?></td>
+                                <td style="padding: 10px 15px; text-align: right; font-weight: 700; color: #0f172a;"><?= number_format($it_sub, 0, ',', '.') ?> đ</td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Thông tin giao nhận hàng -->
+            <div style="background: #f8fafc; border-radius: 10px; padding: 20px; margin-bottom: 25px; text-align: left; font-size: 14px; border: 1px solid #e2e8f0;">
+                <h4 style="margin-bottom: 12px; color: #0f172a; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; font-weight: 700;">
+                    <i class='bx bx-map-pin' style="color: #ef4444;"></i> Thông Tin Giao Nhận Hàng
+                </h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; line-height: 1.7;">
+                    <div>
+                        <p><b>Người nhận:</b> <?= htmlspecialchars($order_info['name']) ?></p>
+                        <p><b>Số điện thoại:</b> <?= htmlspecialchars($order_info['phone']) ?></p>
+                        <p><b>Email:</b> <?= htmlspecialchars($order_info['email'] ?: 'Chưa cung cấp') ?></p>
+                    </div>
+                    <div>
+                        <p><b>Địa chỉ nhận hàng:</b> <?= htmlspecialchars($order_info['address']) ?></p>
+                        <p><b>Hình thức thanh toán:</b> <span style="color: #3b82f6; font-weight: 600;"><?= htmlspecialchars($order_info['pttt']) ?></span></p>
+                        <?php if (!empty($order_info['note'])): ?>
+                            <p><b>Ghi chú:</b> <i><?= htmlspecialchars($order_info['note']) ?></i></p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <span style="color: #64748b;">Trạng thái đơn hàng: <b style="color: #f59e0b;">Chờ xác nhận</b></span>
+                    <span style="font-size: 18px; font-weight: 800; color: #ef4444;">
+                        Tổng thanh toán: <?= number_format($order_info['total'], 0, ',', '.') ?> VNĐ
+                    </span>
+                </div>
+            </div>
+
+            <p style="color: #64748b; font-size: 13px; margin-bottom: 25px;">
+                Đơn hàng của bạn đã được lưu vào hệ thống. Shop sẽ liên hệ qua số điện thoại để xác nhận đơn hàng trước khi gửi.
+            </p>
+
+            <!-- Nút hành động sau khi đặt -->
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                <a href="../controller/index.php?act=tracuudonhang&madh=<?= $order_info['id'] ?>" style="display: inline-flex; align-items: center; gap: 6px; padding: 11px 24px; background: #0f172a; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px;">
+                    <i class='bx bx-search'></i> Theo dõi đơn hàng
+                </a>
+                <?php if (isset($_SESSION['id'])): ?>
+                    <a href="../controller/index.php?act=lichsudonhang" style="display: inline-flex; align-items: center; gap: 6px; padding: 11px 24px; background: #eff6ff; color: #3b82f6; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; border: 1px solid #bfdbfe;">
+                        <i class='bx bx-history'></i> Lịch sử đơn hàng
+                    </a>
+                <?php endif; ?>
+                <a href="../controller/index.php" style="display: inline-flex; align-items: center; gap: 6px; padding: 11px 24px; background: #f1f5f9; color: #334155; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; border: 1px solid #cbd5e1;">
+                    <i class='bx bx-store'></i> Tiếp tục mua sắm
                 </a>
             </div>
         </div>

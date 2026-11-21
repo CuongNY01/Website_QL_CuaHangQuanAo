@@ -38,7 +38,7 @@ if (isset($_POST['login'])) {
         <div class="userlogin" style="background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); text-align: center;">
             <img src="../view/images/<?= !empty($_SESSION['avata']) ? htmlspecialchars($_SESSION['avata']) : 'iconUser.png' ?>" alt="Avatar" style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid #007bff; margin-bottom: 15px;">
             <h2 style="color: #2c3e50; margin-bottom: 5px;">Xin Chào: <span style="color: #007bff;"><?= htmlspecialchars($_SESSION['name']) ?></span></h2>
-            <p style="color: #7f8c8d; font-size: 14px; margin-bottom: 25px;">Thành viên của Football Store 24/7</p>
+            <p style="color: #7f8c8d; font-size: 14px; margin-bottom: 25px;">Thành viên của Fashion Store 24/7</p>
 
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; text-align: left; font-size: 14px;">
                 <tr style="border-bottom: 1px solid #eee;">
@@ -59,11 +59,14 @@ if (isset($_POST['login'])) {
                 </tr>
             </table>
 
-            <div style="display: flex; gap: 15px; justify-content: center;">
-                <a href="../controller/index.php?act=suauser" style="padding: 10px 25px; background: #007bff; color: #fff; text-decoration: none; border-radius: 4px; font-weight: 600;">
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                <a href="../controller/index.php?act=lichsudonhang" style="padding: 10px 20px; background: #10b981; color: #fff; text-decoration: none; border-radius: 6px; font-weight: 600;">
+                    <i class="fa fa-shopping-bag"></i> Đơn hàng của tôi
+                </a>
+                <a href="../controller/index.php?act=suauser" style="padding: 10px 20px; background: #007bff; color: #fff; text-decoration: none; border-radius: 6px; font-weight: 600;">
                     <i class="fa fa-edit"></i> Chỉnh sửa hồ sơ
                 </a>
-                <a href="../view/logout.php" onclick="return confirm('Bạn có chắc chắn muốn đăng xuất?');" style="padding: 10px 25px; background: #e74c3c; color: #fff; text-decoration: none; border-radius: 4px; font-weight: 600;">
+                <a href="../view/logout.php" onclick="return confirm('Bạn có chắc chắn muốn đăng xuất?');" style="padding: 10px 20px; background: #ef4444; color: #fff; text-decoration: none; border-radius: 6px; font-weight: 600;">
                     <i class="fa fa-sign-out"></i> Đăng xuất
                 </a>
             </div>

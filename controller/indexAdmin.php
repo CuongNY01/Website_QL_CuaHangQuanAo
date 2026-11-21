@@ -6,6 +6,7 @@ include_once "../model/sanpham.php";
 include_once "../model/binhluan.php";
 include_once "../model/user.php";
 include_once "../model/admin.php";
+include_once "../model/donhang.php";
 
 if (isset($_SESSION['idAdmin'])) {
     include "../viewAdmin/header.php"; 
@@ -46,6 +47,12 @@ if (isset($_SESSION['idAdmin'])) {
             break;
         case 'binhluan':
             include "../viewAdmin/binhluan.php";
+            break;
+        case 'donhang':
+            include "../viewAdmin/donhang.php";
+            break;
+        case 'chitietdonhang':
+            include "../viewAdmin/chitietdonhang.php";
             break;
         default:
             include "../viewAdmin/userAd.php";
