@@ -79,7 +79,7 @@ function donhang_delete($id) {
 
 // Đếm số lượng đơn hàng đang chờ duyệt
 function donhang_count_pending() {
-    $sql = "SELECT COUNT(*) FROM donhang WHERE trangthai = 'Chờ xác nhận'";
+    $sql = "SELECT COUNT(*) FROM donhang WHERE trangthai LIKE 'Chờ xác nhận%'";
     return (int)pdo_query_value($sql);
 }
 

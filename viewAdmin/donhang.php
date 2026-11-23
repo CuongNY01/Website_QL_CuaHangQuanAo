@@ -55,7 +55,10 @@ $total_revenue = donhang_tong_doanhthu();
             Tất cả
         </a>
         <a href="../controller/indexAdmin.php?act=donhang&status=Chờ xác nhận" class="badge-pill <?= ($filter_status == 'Chờ xác nhận') ? 'badge-warning' : 'badge-neutral' ?>" style="text-decoration: none; padding: 6px 14px; font-size: 13px;">
-            Chờ xác nhận (<?= $pending_count ?>)
+            Chờ xác nhận
+        </a>
+        <a href="../controller/indexAdmin.php?act=donhang&status=Chờ xác nhận (Đã CK)" class="badge-pill <?= ($filter_status == 'Chờ xác nhận (Đã CK)') ? 'badge-info' : 'badge-neutral' ?>" style="text-decoration: none; padding: 6px 14px; font-size: 13px;">
+            Đã CK - Chờ duyệt
         </a>
         <a href="../controller/indexAdmin.php?act=donhang&status=Đang chuẩn bị hàng" class="badge-pill <?= ($filter_status == 'Đang chuẩn bị hàng') ? 'badge-info' : 'badge-neutral' ?>" style="text-decoration: none; padding: 6px 14px; font-size: 13px;">
             Đang chuẩn bị hàng
@@ -133,6 +136,7 @@ $total_revenue = donhang_tong_doanhthu();
                                         <input type="hidden" name="update_status" value="1">
                                         <select name="status" onchange="this.form.submit()" style="padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid var(--admin-border); background: #fff;">
                                             <option value="Chờ xác nhận" <?= ($stt == 'Chờ xác nhận') ? 'selected' : '' ?>>⏳ Chờ xác nhận</option>
+                                            <option value="Chờ xác nhận (Đã CK)" <?= ($stt == 'Chờ xác nhận (Đã CK)') ? 'selected' : '' ?>>💳 Đã CK - Chờ duyệt</option>
                                             <option value="Đang chuẩn bị hàng" <?= ($stt == 'Đang chuẩn bị hàng') ? 'selected' : '' ?>>📦 Đang chuẩn bị</option>
                                             <option value="Đang giao hàng" <?= ($stt == 'Đang giao hàng') ? 'selected' : '' ?>>🚚 Đang giao hàng</option>
                                             <option value="Giao thành công" <?= ($stt == 'Giao thành công') ? 'selected' : '' ?>>✅ Giao thành công</option>

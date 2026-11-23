@@ -10,6 +10,20 @@ if (!isset($_SESSION['giohang'])) {
 
 $order_success = false;
 $order_info = [];
+$transfer_confirmed = false;
+
+// Xử lý xác nhận đã chuyển khoản cho đơn vừa đặt
+if (isset($_POST['confirm_transfer']) && !empty($_SESSION['last_order_info'])) {
+    $order_info = $_SESSION['last_order_info'];
+    $db_id = (int)($order_info['db_id'] ?? 0);
+    if ($db_id > 0) {
+        donhang_update_trangthai($db_id, 'Chờ xác nhận (Đã CK)');
+        $order_info['status'] = 'Chờ xác nhận (Đã CK)';
+        $_SESSION['last_order_info'] = $order_info;
+    }
+    $order_success = true;
+    $transfer_confirmed = true;
+}
 
 // Xử lý mã giảm giá
 $discount_amount = 0;
@@ -88,8 +102,10 @@ if (isset($_POST['confirm_order'])) {
             'discount' => $discount_amount,
             'shipping' => $phi_ship,
             'total' => $thanh_toan,
+            'status' => 'Chờ xác nhận',
             'date' => date("d/m/Y H:i:s")
         ];
+        $_SESSION['last_order_info'] = $order_info;
 
         // Giải phóng giỏ hàng theo đúng đặc tả Use Case Bảng 1.4
         $_SESSION['giohang'] = [];
@@ -121,6 +137,72 @@ $pre_email = $_SESSION['email'] ?? '';
             <div style="display: inline-block; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 8px 20px; font-size: 15px; color: #1e40af; margin-bottom: 25px;">
                 Mã đơn hàng: <b style="color: #ef4444; font-size: 17px;"><?= $order_info['id'] ?></b> | Ngày đặt: <?= $order_info['date'] ?>
             </div>
+
+            <?php
+            $is_bank_transfer = (stripos($order_info['pttt'] ?? '', 'COD') === false);
+            $qr_amount = (int)($order_info['total'] ?? 0);
+            $qr_note = "THANHTOAN " . ($order_info['id'] ?? '');
+            $vietqr_url = "https://img.vietqr.io/image/MB-0348008939-compact2.png?amount=" . $qr_amount . "&addInfo=" . urlencode($qr_note) . "&accountName=" . urlencode("DUONG BA CONG");
+            ?>
+
+            <?php if ($is_bank_transfer): ?>
+                <!-- CỔNG THANH TOÁN CHUYỂN KHOẢN VIETQR -->
+                <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border: 1px solid #bae6fd; border-radius: 12px; padding: 24px; margin-bottom: 25px; text-align: left;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; border-bottom: 1px solid #bae6fd; padding-bottom: 12px;">
+                        <h3 style="margin: 0; font-size: 17px; color: #0369a1; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                            <i class='bx bx-qr-scan' style="font-size: 22px;"></i> THANH TOÁN CHUYỂN KHOẢN (VIETQR 24/7)
+                        </h3>
+                        <?php if ($transfer_confirmed || ($order_info['status'] ?? '') === 'Chờ xác nhận (Đã CK)'): ?>
+                            <span style="background: #10b981; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">
+                                <i class='bx bx-check-double'></i> Đã báo chuyển khoản
+                            </span>
+                        <?php else: ?>
+                            <span style="background: #f59e0b; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">
+                                <i class='bx bx-time'></i> Chờ thanh toán
+                            </span>
+                        <?php endif; ?>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 22px; align-items: center;">
+                        <div style="text-align: center; background: #fff; padding: 14px; border-radius: 10px; border: 1px solid #cbd5e1; box-shadow: 0 2px 10px rgba(0,0,0,0.04);">
+                            <img src="<?= htmlspecialchars($vietqr_url) ?>" alt="Mã QR Chuyển Khoản VietQR" style="max-width: 220px; width: 100%; border-radius: 6px;">
+                            <p style="margin: 8px 0 0 0; font-size: 12px; color: #475569;">Quét bằng app Ngân hàng, MoMo hoặc ZaloPay</p>
+                        </div>
+
+                        <div style="font-size: 14px; color: #1e293b; line-height: 1.9;">
+                            <p style="margin: 0 0 8px 0;"><b>Ngân hàng:</b> MB Bank (TMCP Quân Đội)</p>
+                            <p style="margin: 0 0 8px 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                <b>Số tài khoản:</b> 
+                                <span style="font-family: monospace; font-size: 16px; font-weight: 800; color: #0f172a; background: #fff; padding: 2px 8px; border-radius: 4px; border: 1px solid #cbd5e1;">0348008939</span>
+                                <button type="button" onclick="copyText('0348008939', this)" style="padding: 3px 10px; font-size: 12px; background: #0284c7; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Sao chép</button>
+                            </p>
+                            <p style="margin: 0 0 8px 0;"><b>Chủ tài khoản:</b> DUONG BA CONG</p>
+                            <p style="margin: 0 0 8px 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                <b>Số tiền:</b> 
+                                <span style="font-size: 16px; font-weight: 800; color: #ef4444;"><?= number_format($qr_amount, 0, ',', '.') ?> VNĐ</span>
+                                <button type="button" onclick="copyText('<?= $qr_amount ?>', this)" style="padding: 3px 10px; font-size: 12px; background: #0284c7; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Sao chép</button>
+                            </p>
+                            <p style="margin: 0 0 14px 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                <b>Nội dung CK:</b> 
+                                <span style="font-family: monospace; font-size: 14px; font-weight: 800; color: #b91c1c; background: #fef2f2; padding: 2px 8px; border-radius: 4px; border: 1px solid #fecaca;"><?= htmlspecialchars($qr_note) ?></span>
+                                <button type="button" onclick="copyText('<?= htmlspecialchars($qr_note) ?>', this)" style="padding: 3px 10px; font-size: 12px; background: #0284c7; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Sao chép</button>
+                            </p>
+
+                            <?php if ($transfer_confirmed || ($order_info['status'] ?? '') === 'Chờ xác nhận (Đã CK)'): ?>
+                                <div style="background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 600;">
+                                    <i class='bx bx-check-circle'></i> Đã ghi nhận thông báo chuyển khoản! Nhân viên sẽ đối soát và xác nhận đơn hàng cho bạn ngay.
+                                </div>
+                            <?php else: ?>
+                                <form method="POST" action="" style="margin: 0;">
+                                    <button type="submit" name="confirm_transfer" style="width: 100%; padding: 11px 16px; background: #10b981; color: #fff; border: none; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 10px rgba(16,185,129,0.25);">
+                                        <i class='bx bx-check-shield' style="font-size: 18px;"></i> TÔI ĐÃ CHUYỂN KHOẢN XONG
+                                    </button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
 
             <!-- Bảng danh sách sản phẩm đã đặt -->
             <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; margin-bottom: 25px; text-align: left;">
@@ -179,7 +261,7 @@ $pre_email = $_SESSION['email'] ?? '';
                 </div>
 
                 <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                    <span style="color: #64748b;">Trạng thái đơn hàng: <b style="color: #f59e0b;">Chờ xác nhận</b></span>
+                    <span style="color: #64748b;">Trạng thái đơn hàng: <b style="color: <?= ($order_info['status'] ?? '') === 'Chờ xác nhận (Đã CK)' ? '#10b981' : '#f59e0b' ?>;"><?= htmlspecialchars($order_info['status'] ?? 'Chờ xác nhận') ?></b></span>
                     <span style="font-size: 18px; font-weight: 800; color: #ef4444;">
                         Tổng thanh toán: <?= number_format($order_info['total'], 0, ',', '.') ?> VNĐ
                     </span>
@@ -227,7 +309,7 @@ $pre_email = $_SESSION['email'] ?? '';
                     <i class="fa fa-map-marker" style="color: #e74c3c;"></i> Thông Tin Giao Hàng
                 </h3>
 
-                <form action="../controller/thanhtoan.php" method="POST" id="checkout-form">
+                <form action="" method="POST" id="checkout-form">
                     <div style="margin-bottom: 15px;">
                         <label style="font-weight: 600; display: block; margin-bottom: 5px; font-size: 14px;">Họ và tên người nhận <span style="color:red;">*</span></label>
                         <input type="text" name="name" required value="<?= htmlspecialchars($pre_name) ?>" placeholder="Nguyễn Văn A" style="width: 100%; height: 40px; padding: 5px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
@@ -251,13 +333,22 @@ $pre_email = $_SESSION['email'] ?? '';
 
                     <div style="margin-bottom: 20px;">
                         <label style="font-weight: 600; display: block; margin-bottom: 5px; font-size: 14px;">Phương thức thanh toán <span style="color:red;">*</span></label>
-                        <select name="pttt" style="width: 100%; height: 42px; padding: 5px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; background: #fff;">
+                        <select name="pttt" id="pttt-select" onchange="toggleBankPreview()" style="width: 100%; height: 42px; padding: 5px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; background: #fff;">
                             <option value="COD - Trả tiền khi nhận hàng (Thanh toán tại nhà)">COD - Thanh toán tiền mặt khi nhận hàng (Khuyên dùng)</option>
+                            <option value="Chuyển khoản ATM / Mobile Banking (VietQR)">Chuyển khoản Ngân hàng (Quét mã VietQR 24/7)</option>
                             <option value="Ví điện tử MoMo">Thanh toán qua Ví điện tử MoMo</option>
                             <option value="Ví điện tử ZaloPay">Thanh toán qua Ví ZaloPay</option>
-                            <option value="Viettel Money">Thanh toán qua Viettel Money</option>
-                            <option value="Chuyển khoản ATM / Mobile Banking">Chuyển khoản ATM / Internet Banking nội địa</option>
                         </select>
+
+                        <!-- Khung hướng dẫn chuyển khoản xem trước -->
+                        <div id="bank-preview-box" style="display: none; margin-top: 12px; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 14px 16px; font-size: 13px; color: #0c4a6e; line-height: 1.6;">
+                            <div style="font-weight: 700; margin-bottom: 6px; color: #0369a1; display: flex; align-items: center; gap: 6px;">
+                                <i class='bx bx-info-circle' style="font-size: 17px;"></i> Thông tin chuyển khoản Fashion Store 24/7
+                            </div>
+                            <p style="margin: 2px 0;">• <b>Ngân hàng:</b> MB Bank — <b>STK:</b> <code>0348008939</code> — <b>Chủ TK:</b> DUONG BA CONG</p>
+                            <p style="margin: 2px 0;">• <b>Số tiền thanh toán:</b> <b style="color: #ef4444;"><?= number_format($thanh_toan, 0, ',', '.') ?> VNĐ</b></p>
+                            <p style="margin: 4px 0 0 0; font-style: italic; color: #0284c7;">Sau khi nhấn "Xác nhận đặt hàng", mã <b>QR VietQR</b> tự động điền sẵn số tiền và nội dung sẽ hiển thị để bạn quét nhanh.</p>
+                        </div>
                     </div>
 
                     <div style="margin-bottom: 20px;">
@@ -295,7 +386,7 @@ $pre_email = $_SESSION['email'] ?? '';
                                 <img src="../view/images/<?= htmlspecialchars($item[0]) ?>" alt="" style="width: 45px; height: 45px; object-fit: contain; border: 1px solid #eee; border-radius: 4px;">
                                 <div style="flex: 1;">
                                     <p style="margin: 0; font-size: 13px; font-weight: 600; color: #333;"><?= htmlspecialchars($item[1]) ?></p>
-                                    <span style="font-size: 12px; color: #888;">Số lượng: <?= $item[3] ?></span>
+                                    <span style="font-size: 12px; color: #888;">Size: <b><?= htmlspecialchars($item[4] ?? 'M') ?></b> | Số lượng: <?= $item[3] ?></span>
                                 </div>
                                 <span style="font-size: 13px; font-weight: 600; color: #e74c3c;">
                                     <?= number_format($item[2] * $item[3], 0, ',', '.') ?> đ
@@ -333,7 +424,7 @@ $pre_email = $_SESSION['email'] ?? '';
     <?php endif; ?>
 </div>
 
-<main>
+<section>
     <div class="box-policy" style="display: flex; justify-content: center; align-items: center; margin: 40px auto; gap: 20px; flex-wrap: wrap;">
         <div class="iteam" style="width: 220px; text-align: center; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
             <div class="logo">
@@ -372,4 +463,31 @@ $pre_email = $_SESSION['email'] ?? '';
             </div>
         </div>
     </div>
-</main>
+</section>
+
+<script>
+function toggleBankPreview() {
+    var sel = document.getElementById('pttt-select');
+    var box = document.getElementById('bank-preview-box');
+    if (!sel || !box) return;
+    if (sel.value.indexOf('COD') === -1) {
+        box.style.display = 'block';
+    } else {
+        box.style.display = 'none';
+    }
+}
+
+function copyText(text, btn) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function() {
+            var old = btn.innerText;
+            btn.innerText = 'Đã chép!';
+            btn.style.background = '#10b981';
+            setTimeout(function() {
+                btn.innerText = old;
+                btn.style.background = '#0284c7';
+            }, 1500);
+        });
+    }
+}
+</script>

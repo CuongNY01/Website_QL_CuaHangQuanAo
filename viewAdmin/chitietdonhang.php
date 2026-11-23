@@ -64,6 +64,7 @@ if ($stt === 'Đang giao hàng' || $stt === 'Đang chuẩn bị hàng') {
                 <label style="font-size: 13px; font-weight: 700; color: #334155;">Chuyển trạng thái:</label>
                 <select name="trangthai" class="form-control-custom" style="width: 200px; height: 38px;">
                     <option value="Chờ xác nhận" <?= ($stt == 'Chờ xác nhận') ? 'selected' : '' ?>>⏳ Chờ xác nhận</option>
+                    <option value="Chờ xác nhận (Đã CK)" <?= ($stt == 'Chờ xác nhận (Đã CK)') ? 'selected' : '' ?>>💳 Đã CK - Chờ duyệt</option>
                     <option value="Đang chuẩn bị hàng" <?= ($stt == 'Đang chuẩn bị hàng') ? 'selected' : '' ?>>📦 Đang chuẩn bị hàng</option>
                     <option value="Đang giao hàng" <?= ($stt == 'Đang giao hàng') ? 'selected' : '' ?>>🚚 Đang giao hàng</option>
                     <option value="Giao thành công" <?= ($stt == 'Giao thành công') ? 'selected' : '' ?>>✅ Giao thành công</option>
